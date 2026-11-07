@@ -1,8 +1,11 @@
 r"""新闻/核查站列表页探测爬虫：抓文章链接+标题，验证站点可达性与数据形状。
 
 用法：
-  python news_probe.py --site piyao     # 中国互联网联合辟谣平台（直连）
-  python news_probe.py --site snopes    # Snopes 最新核查（走代理）
+  python news_probe.py --site piyao         # 中国互联网联合辟谣平台（直连）
+  python news_probe.py --site snopes        # Snopes 最新核查（走代理）
+  python news_probe.py --site politifact    # PolitiFact 核查列表（走代理）
+  python news_probe.py --site fullfact      # FullFact 最新（走代理）
+  python news_probe.py --site factcheckorg  # FactCheck.org 首页（走代理）
   python news_probe.py --site all
 
 输出：metadata/news/{site}__{日期}.jsonl  {site, title, url, found_at}
@@ -38,6 +41,24 @@ SITES = {
         "proxy": True,
         # 核查文章路径是 /fact-check/{slug}/（连字符）
         "link_re": r'<a[^>]+href="((?:https?://www\.snopes\.com)?/fact-check/[^"]+)"[^>]*>(.*?)</a>',
+    },
+    "politifact": {
+        "url": "https://www.politifact.com/factchecks/",
+        "proxy": True,
+        # 文章路径 /factchecks/{年}/{三位月}/{日}/{分类}/{slug}/
+        "link_re": r'<a[^>]+href="((?:https?://(?:www\.)?politifact\.com)?/factchecks/20\d{2}/[a-z]{3}/\d{2}/[^"]+/)"[^>]*>(.*?)</a>',
+    },
+    "fullfact": {
+        "url": "https://fullfact.org/latest/",
+        "proxy": True,
+        # 文章路径 /{栏目}/{slug}/（栏目集合按站点导航枚举）
+        "link_re": r'<a[^>]+href="((?:https?://(?:www\.)?fullfact\.org)?/(?:politics|health|economy|climate|immigration|education|media|science|technology|law|uk-society|world)/[a-z0-9-]+/)"[^>]*>(.*?)</a>',
+    },
+    "factcheckorg": {
+        "url": "https://www.factcheck.org/",
+        "proxy": True,
+        # 文章路径 /{年}/{月}/{slug}/
+        "link_re": r'<a[^>]+href="((?:https?://(?:www\.)?factcheck\.org)?/20\d{2}/\d{2}/[a-z0-9-]+/)"[^>]*>(.*?)</a>',
     },
 }
 
@@ -91,7 +112,8 @@ def probe(site: str, cfg: dict, limit: int) -> list[dict]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description="新闻/核查站列表页探测")
-    ap.add_argument("--site", default="all", choices=["piyao", "snopes", "all"])
+    ap.add_argument("--site", default="all",
+                    choices=["piyao", "snopes", "politifact", "fullfact", "factcheckorg", "all"])
     ap.add_argument("--limit", type=int, default=15, help="每个站点最多记录数")
     a = ap.parse_args()
 

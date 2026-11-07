@@ -2,7 +2,7 @@
 name: factcheck-collect
 description: 多模态虚假新闻数据集采集 SOP——X/YouTube/核查站三通道采集、常用核查源网址清单、配额治理、幂等去重、每日收割；编排与结构组装分别见 factcheck-pipeline / factcheck-organize。
 whenToUse: 当需要为多模态虚假新闻数据集采集新样本（YouTube 搜索/媒体、X 真浏览器采集、核查站列表）、运行每日收割 harvest_daily、或需要查常用核查源/辟谣平台网址时使用；用户提到「采集/收割/扩数据集/采一批数据/去哪个站查」时触发。批量采集+下游编排请改走 factcheck-pipeline。
-version: 1.3.0
+version: 1.4.0
 ---
 
 # factcheck-collect — 多模态虚假新闻数据集采集 SOP
@@ -59,6 +59,9 @@ $env:HTTP_PROXY='http://127.0.0.1:7897'           # 命令行/Python 默认不�
 |---|---|---|---|
 | 中国互联网联合辟谣平台 | <https://www.piyao.org.cn/> | 中 | 官方法定辟谣平台；注意过滤专项行动通报/倡议书等版式句 |
 | Snopes | <https://www.snopes.com/latest/> | 英 | 评级体系清晰（What's True/False 段落结构），解析器已适配三层映射 |
+| PolitiFact | <https://www.politifact.com/factchecks/> | 英 | Truth-O-Meter 六级评级；文章路径 `/factchecks/年/月/日/分类/slug/`（2026-11-07 实测） |
+| FullFact | <https://fullfact.org/latest/> | 英 | 英国核查；文章路径 `/{栏目}/slug/`（2026-11-07 实测） |
+| FactCheck.org | <https://www.factcheck.org/> | 英 | Annenberg 学术背景；文章路径 `/年/月/slug/`（2026-11-07 实测） |
 
 ### 2.2 已验证可靠的核查站（档案/审计里实际用过的，接入需写 parse_<site>）
 
@@ -75,13 +78,12 @@ $env:HTTP_PROXY='http://127.0.0.1:7897'           # 命令行/Python 默认不�
 | GADMO | <https://gadmo.eu> | 德 | 德语区核查协作网 |
 | 澎湃/搜狐"明查"镜像 | （检索"明查 + 主题"） | 中 | 同稿多站分发，引用时任选可点开的一手链接 |
 
-### 2.3 建议补充（主流、结构化评级、学术常用；**接入前先验证可用性**）
+### 2.3 建议补充（主站可达性受网络环境影响，接入前先实测）
 
-| 站点 | 网址 | 语言 | 强项 |
+| 站点 | 网址 | 语言 | 状态/强项 |
 |---|---|---|---|
-| PolitiFact | <https://www.politifact.com> | 英 | Truth-O-Meter 六级评级，结构化最好 |
-| FactCheck.org | <https://www.factcheck.org> | 英 | Annenberg 学术背景，美国政治 |
-| Full Fact | <https://fullfact.org> | 英 | 英国，自动化核查研究活跃 |
+| AFP Fact Check | <https://factcheck.afp.com> | 英/多语 | **实测 403（Cloudflare 拦截）**：需浏览器登录态或镜像才可采；军事/地缘覆盖好 |
+| EUvsDisinfo | <https://euvsdisinfo.eu> | 英 | **实测连接重置**：需代理/重试；可按 DISINFO 条目检索，含谣言原文存档 |
 | Google Fact Check Explorer | <https://toolbox.google.com/factcheck/explorer> | 多语 | **聚合检索器**——查证先用它找核查源，不是采集对象 |
 
 ### 2.4 二期规划（暂缓，先 1 站 1 栏目验证）
@@ -235,6 +237,8 @@ GroundLie360（`github.com/yangbingjian/GroundLie360`，标注体系对齐对象
 
 ## 变更记录
 
+- **1.4.0**（2026-11-07）：接入 PolitiFact / FullFact / FactCheck.org 三站（news_probe 实测各 5 条）；
+  AFP 标注 403、EUvsDisinfo 标注连接重置；已接线站点增至 5 个。
 - **1.3.0**（2026-11-06）：新增配方 E「站点健康检查」（每周例行）。
 - **1.2.0**（2026-11-06）：新增任务配方 4 条、排障表 7 行。
 - **1.1.0**（2026-11-06）：去重——编排链路改指 `factcheck-pipeline`；结构规范与组装命令
