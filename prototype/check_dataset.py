@@ -46,6 +46,7 @@ def main() -> None:
         sys.exit(1)
 
     issues: list[str] = []
+    warns: list[str] = []
     index = json.loads(idx_path.read_text(encoding="utf-8"))
     cases = index.get("cases", index if isinstance(index, list) else [])
     idx_names: set[str] = set()
@@ -89,6 +90,23 @@ def main() -> None:
         for f in (d / "text" / "text.txt", d / "web" / "source.txt"):
             if f.is_file() and f.stat().st_size == 0:
                 issues.append(f"[file] {f.relative_to(root)} 为 0 字节")
+        src = d / "web" / "source.txt"
+        if src.is_file():
+            stext = src.read_text(encoding="utf-8", errors="replace")
+            if "http" not in stext.lower():
+                issues.append(f"[file] {name}/web/source.txt 不含 URL")
+        txt = d / "text" / "text.txt"
+        if txt.is_file():
+            tt = txt.read_text(encoding="utf-8", errors="replace")
+            bad = sum(tt.count(ch) for ch in "锛鍙鐨璁浣璇鍚鐣缁")
+            if bad > 5:
+                warns.append(f"[warn] {name}/text/text.txt 疑似乱码（命中 {bad} 个异常字）")
+        for opt in OPTIONAL_DIRS:
+            od = d / opt
+            if od.is_dir():
+                for mf in od.iterdir():
+                    if mf.is_file() and mf.stat().st_size == 0:
+                        issues.append(f"[file] {mf.relative_to(root)} 为 0 字节")
 
     orphans = sorted(set(disk) - idx_names)
     ghosts = sorted(idx_names - set(disk))
@@ -103,6 +121,10 @@ def main() -> None:
         n = sum(1 for d in disk.values() if (d / opt).is_dir() and any(f.is_file() for f in (d / opt).iterdir()))
         cover[opt] = f"{n}/{len(disk)}"
     print("模态覆盖: " + "  ".join(f"{k}={v}" for k, v in cover.items()))
+    if warns:
+        print(f"警告 {len(warns)} 条（不阻塞）：")
+        for w in warns:
+            print(" -", w)
     if issues:
         print(f"发现 {len(issues)} 处问题：")
         for i in issues:

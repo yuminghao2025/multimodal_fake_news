@@ -91,6 +91,10 @@ def main() -> None:
                 s = sum(int(v) for v in cov[layer].values())
                 if s != count:
                     issues.append(f"[packets] layer_coverage.{layer} 合计 {s} != 事件数 {count}")
+        packet_ids = {p.get("event_id") for p in packets}
+        for i, f in enumerate(findings, 1):
+            if f.get("event_id") not in packet_ids:
+                issues.append(f"[findings] 第 {i} 行 event_id {f.get('event_id')!r} 不在核查包中")
 
     print(f"findings 行数={len(findings)}  packets={vp.get('count') if vp_path.is_file() else '?'}")
     if issues:
