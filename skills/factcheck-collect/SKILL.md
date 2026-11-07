@@ -1,25 +1,28 @@
 ---
 name: factcheck-collect
-description: 多模态虚假新闻数据集采集 SOP——X/YouTube/核查站三通道采集、常用核查源网址清单、配额治理、幂等去重、两层结构组装的完整流程，对应 multimodal_fake_news 项目的 collect 层与每日收割器。
-whenToUse: 当需要为多模态虚假新闻数据集采集新样本（YouTube 搜索/媒体、X 真浏览器采集、核查站列表）、运行每日收割 harvest_daily、把新采集数据组装成 dataset 案例、或需要查常用核查源/辟谣平台网址时使用；用户提到「采集/收割/扩数据集/采一批数据/去哪个站查」时触发。
+description: 多模态虚假新闻数据集采集 SOP——X/YouTube/核查站三通道采集、常用核查源网址清单、配额治理、幂等去重、每日收割；编排与结构组装分别见 factcheck-pipeline / factcheck-organize。
+whenToUse: 当需要为多模态虚假新闻数据集采集新样本（YouTube 搜索/媒体、X 真浏览器采集、核查站列表）、运行每日收割 harvest_daily、或需要查常用核查源/辟谣平台网址时使用；用户提到「采集/收割/扩数据集/采一批数据/去哪个站查」时触发。批量采集+下游编排请改走 factcheck-pipeline。
+version: 1.3.0
 ---
 
 # factcheck-collect — 多模态虚假新闻数据集采集 SOP
 
-为 `multimodal_fake_news` 项目采集"文本 + 图片 + 短视频"多模态样本，
-落盘为原始层（metadata/ + media/）与案例层（dataset/）。**仅学术研究，只采公开内容。**
+为 `multimodal_fake_news` 项目采集多模态样本，写原始层（metadata/ + media/）。
+**仅学术研究，只采公开内容。**
+
+> **本 skill 只管"拿数据"**：通道、前置检查、网址、配额、去重、收割。
+> ① 批量采集 + 归簇/核查/出卡编排 → `factcheck-pipeline` skill；
+> ② 下载后的组装与结构校验 → `factcheck-organize` skill。
 
 ## 0. 开工准备（每次先做两件事）
 
-**第一件：确认项目根目录。** 项目位置**不写死、每次开工先问用户**
-（"项目根目录在哪？还是原来的 multimodal_fake_news 目录吗？"）。
-拿到路径后先验证三样东西存在再继续：`prototype\`、`fake_news_env\`、`documentation\`。
-缺 venv 就先重建：`python -m venv fake_news_env` → `pip install -r requirements.txt`。
+**第一件：确认项目根目录。** 位置不写死、每次开工先问用户；拿到路径后验证
+`prototype\`、`fake_news_env\`、`documentation\` 存在。缺 venv：`python -m venv fake_news_env` → `pip install -r requirements.txt`。
 
 **第二件：设置运行环境。**
 
 ```powershell
-cd <项目根目录>                                  # 用刚确认的路径
+cd <项目根目录>
 $env:PYTHONIOENCODING='utf-8'                     # 中文日志不乱码
 $py = "fake_news_env\Scripts\python.exe"          # 一律用 venv 里的 python
 $env:HTTPS_PROXY='http://127.0.0.1:7897'          # Google/YouTube 全部要走本地代理
@@ -93,7 +96,7 @@ FakeNewsNet（`github.com/KaiDMML/FakeNewsNet`）、
 TAGFN（`huggingface.co/datasets/kayzliu/TAGFN`）、
 GroundLie360（`github.com/yangbingjian/GroundLie360`，标注体系对齐对象）。
 
-## 3. 三条执行路径（按需选一，先 dry 后真跑）
+## 3. 两条执行路径（单通道采集 + 每日收割）
 
 ### 路径 A：单次试探（新通道/新关键词先走这条）
 
@@ -124,21 +127,10 @@ GroundLie360（`github.com/yangbingjian/GroundLie360`，标注体系对齐对象
 
 **A4. 核查站列表**：`news_probe.py --site piyao`（或 snopes / all）。
 
-### 路径 B：编排链路（批量采集 + 全下游，正式扩数据时用）
+> 批量采集（多通道 + 归簇/核查/出卡一条链）**不要在这里拼命令**——用
+> `factcheck-pipeline` skill 的 `plan/run/status`。
 
-```powershell
-& $py prototype\orchestrator.py manifest                    # 动作清单，可当 LLM tool schema
-& $py prototype\orchestrator.py plan --channels youtube,x --pipeline --reset
-& $py prototype\orchestrator.py run --dry                   # 演练整链，不真跑
-& $py prototype\orchestrator.py run                         # 真跑（30/60/120s 指数退避）
-& $py prototype\orchestrator.py status                      # 队列状态
-```
-
-- `--channels`：youtube / yt-harvest / x / news / none（不采集）/ full（=youtube,x,news）；
-- 只重跑下游不采集：`plan --channels none --pipeline --reset --cards 10`；
-- 失败 3 次 → `paused`，上游 paused → 下游 `blocked`；审计在 `metadata/runs.jsonl`。
-
-### 路径 C：每日收割（免费配额轮转扩数据集）
+### 路径 B：每日收割（免费配额轮转扩数据集）
 
 ```powershell
 & $py prototype\harvest_daily.py --dry-run    # 先看计划，不花配额
@@ -152,55 +144,17 @@ GroundLie360（`github.com/yangbingjian/GroundLie360`，标注体系对齐对象
 - 定时：`schtasks /Create /TN "FakeNews-YT-Harvest" /TR "<项目根>\run_harvest.bat" /SC DAILY /ST 09:30 /F`，
   删除 `/Delete`，手动触发 `/Run`，日志 `logs/harvest_task.log`。
 
-## 4. 数据集结构（采来的东西落成什么样）
+## 4. 落盘位置速览（结构规范由 organize 维护）
 
-两层结构：**原始采集层 → 案例数据集层**。采集只写原始层；组装（§5）才进案例层。
+采集只写这三处：
+- `metadata\`：结构化记录（youtube_meta.jsonl / x\{slug}__{日期}.jsonl / news\{站点}\…）；
+- `media\`：媒体本体（mp4/m4a/vtt/缩略图）；
+- `dataset\`：**不归采集直接写**，由组装步骤生成。
 
-```
-<项目根>\
-├── metadata\                 【原始采集层：结构化记录，全部入库】
-│   ├── youtube_meta.jsonl      YouTube 元数据（video_id 幂等去重）
-│   ├── youtube_media.jsonl     YouTube 媒体清单（(video_id, what) upsert）
-│   ├── x\{关键词slug}__{日期}.jsonl        X 采集（tweet_id 去重）
-│   ├── news\{站点}\{站点}__{日期}.jsonl    核查站列表（piyao、snopes…）
-│   ├── label_sheet.csv         标注表（labeling_rules v0.2 schema）
-│   ├── case_names.json         video_id → topic/slug/verdict 语义命名映射
-│   ├── events.json             归簇事件簇（含阈值曲线，可复现）
-│   ├── verify_packets.json     核查工作表（三层判定 + 缺口 + 检索建议）
-│   ├── tasks.json / runs.jsonl 调度队列 / 运行审计
-│   └── quota_ledger.jsonl / harvest_state.json   配额账本 / 收割断点
-├── media\                    【原始采集层：媒体本体（mp4/m4a/vtt/缩略图）】
-├── dataset\                  【案例数据集层：案例制，98+ 案例】
-│   ├── index.json              总索引：id/event/topic/label/reason + 各模态文件清单
-│   │                           同一事件真假对靠 event 字段归组
-│   └── {topic}__{event_slug}[__true|__false]\
-│       ├── image\    缩略图 png（日后扩展：关键帧、证据图）
-│       ├── video\    mp4（硬链接自 media\，不占双份空间）
-│       ├── wav\      16kHz 单声道 wav（ASR/声学特征）
-│       ├── text\     text.txt（标题+简介+字幕纯文本）+ subs.vtt
-│       ├── reason\   reason.txt（标注理由，GroundLie360 式，必非空）
-│       └── web\      source.txt（来源 URL + 证据链接；定点删除的依据）
-└── reports\card_<事件>.md    事件卡（成员表 + 三层判定 + 缺口清单）
-```
+完整两层结构、案例六件套、命名规则、`index.json` 字段清单 →
+`factcheck-organize` skill §1；组装命令 → organize §2。
 
-**命名规则**：`{topic}__{event_slug}[__true|__false]`，全英文小写下划线。
-`__true/__false` 后缀**只在有核查/标注凭据时添加**，凭标题猜测不加；
-新视频无映射时从标题取词兜底（映射表 `metadata/case_names.json`）。
-
-**单文件上限**：单文件 >100MB（GitHub 硬限）时裁剪或走 LFS。
-
-## 5. 采集后组装（原始层 → 案例层）
-
-```powershell
-& $py prototype\make_cases.py                # 全量重建 dataset/
-& $py prototype\make_cases.py --vids <id1>,<id2>   # 只装指定视频
-& $py prototype\make_cases.py --fresh        # 重建（注意：lang 字段会丢，重建后需回填）
-```
-
-- 标签与理由自动从 label_sheet.csv 回填（`youtube:{video_id}` 行）；
-- 视频硬链接复用 media/；wav 由 ffmpeg 转 16kHz；缩略图 webp→png。
-
-## 6. 实测踩坑记录（绕开这些坑，别重新踩）
+## 5. 实测踩坑记录（绕开这些坑，别重新踩）
 
 1. **googleapis 直连全部超时**——本机实测必须走 `HTTPS_PROXY=127.0.0.1:7897`；
 2. **chrome-mcp 桥接有隐私过滤**：结果含 URL 查询串会被替换成 `[BLOCKED]`，
@@ -219,19 +173,70 @@ GroundLie360（`github.com/yangbingjian/GroundLie360`，标注体系对齐对象
 9. **X 对自动化有条款限制**——采集前确认条款，异常（401/429）立即停，换号前先看
    compliance_checklist.md。
 
-## 7. 验收（采集完必查）
+## 6. 验收（采集完必查）
 
 - [ ] `metadata/*.jsonl` 有新增条目，且无重复 id（抽查 video_id/tweet_id 唯一）；
 - [ ] `metadata/quota_ledger.jsonl` 记账与实际调用一致，未超 `--quota-cap`；
 - [ ] 每条新样本带 `source_url + collected_at`；
-- [ ] `dataset/` 新案例六件套齐全，命名符合 §4 规则；
 - [ ] 合规自查：`git grep -I -E 'AIzaSy|api[_-]?key\s*=|BEGIN (RSA|OPENSSH) PRIVATE KEY'` 无命中；
 - [ ] 未采到任何付费墙/会员专属内容。
 
-## 8. 深入参考（按需读，不用背）
+（组装后的结构校验 → `factcheck-organize` §3；整链回归 → `factcheck-pipeline` §7。）
+
+## 7. 深入参考（按需读，不用背）
 
 - 采集路线图与配额细节：项目根 `documentation/roadmap.md`
 - 合规清单：`documentation/compliance_checklist.md`
 - 调度层与 agent.v1 契约：`documentation/orchestration.md`
 - 三层判定与站点扩展方式（新增 parse_<site>）：`documentation/three_layer_judgment.md`
-- 案例结构与命名：项目根 `README.md`
+
+## 8. 任务配方（直接照做）
+
+**配方 A：扩 20 条 YouTube 新数据**
+1. 设 `$env:YT_API_KEY` + 代理（§0）；
+2. 先 `step3_youtube_probe.py --query "关键词" --limit 10` 验证链路（100 units）；
+3. 正式跑 `--limit 20`，看输出 `added=N`；
+4. 核对 `metadata/quota_ledger.jsonl`；同日累计 + 100 ≤ 8000；
+5. 下游：`factcheck-organize` 组装 → `factcheck-pipeline` 核查出卡。
+
+**配方 B：核查站采一轮**
+1. `news_probe.py --site all`（或单站）；
+2. 检查新增 jsonl 条数；
+3. **编码抽查**：text.txt 中文可读（防双重编码，§5 踩坑 3）；
+4. 下游组装。
+
+**配方 C：每日收割**
+1. `harvest_daily.py --dry-run` 看计划（词表/cursor/预算）；
+2. 确认后真跑；
+3. 核对 `harvest_state.json` cursor 前进、`quota_ledger` 记账。
+
+**配方 D：接入新核查站**
+1. 先 1 条 limit 试跑验证选择器（正文抽得到、URL 拼得对——piyao 斜杠坑）；
+2. 按 `documentation/three_layer_judgment.md §7` 写 `parse_<site>`；
+3. 回归：跑 5 条，人工抽 1 条核对。
+
+**配方 E：站点健康检查（每周例行）**
+1. `news_probe.py --site <站> --limit 1` 试跑；
+2. 0 条 / 选择器异常 / 正文乱码 → 站点改版或编码回归，更新 `parse_<site>`；
+3. 编码抽查：`fix_mojibake.py` 有先例（`69d02b9`）；
+4. 恢复后跑 5 条人工抽 1 条核对。
+
+## 9. 排障表（先看这里）
+
+| 现象 | 可能原因 | 处理 |
+|---|---|---|
+| 401 / 403 | 登录态失效/账号风控 | 停手；查 Chrome 登录态；换备用小号前确认条款 |
+| 429 | 限流 | 指数退避；不绕过限流；字幕 429 改走 audio+Whisper |
+| 中文乱码 | 双重编码 | 修采集器后重采（先例 `69d02b9` 修 15 条 piyao） |
+| googleapis 返回 000/超时 | 没走代理 | 设 `HTTPS_PROXY`/`HTTP_PROXY`（§0） |
+| 配额超限拒跑 | 日配额 | 查 `quota_ledger`；等次日或调 `--quota-cap` |
+| chrome-mcp 500 "Already connected" | 单会话限制 | 复用 `logs/chrome_mcp_session.json`，别反复 initialize |
+| 采集 0 条 | 关键词/过滤语法 | 去 `filter:` 语法；换英文关键词；先 mock 验证 |
+
+## 变更记录
+
+- **1.3.0**（2026-11-06）：新增配方 E「站点健康检查」（每周例行）。
+- **1.2.0**（2026-11-06）：新增任务配方 4 条、排障表 7 行。
+- **1.1.0**（2026-11-06）：去重——编排链路改指 `factcheck-pipeline`；结构规范与组装命令
+  改指 `factcheck-organize`（本 skill 只保留落盘位置速览）；新增 version 字段。
+- **1.0.0**（2026-11-06）：初版（采集 SOP + 常用网址五档清单 + 踩坑记录）。
