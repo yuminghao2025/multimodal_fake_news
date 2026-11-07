@@ -43,11 +43,12 @@ powershell -ExecutionPolicy Bypass -File skills\sync_skills.ps1
 
 | 检查 | 命令 | 门槛 |
 |---|---|---|
-| 数据集结构 | `python prototype\check_dataset.py` | exit 0（六件套/命名/字段/孤儿） |
-| 媒体存活 | `python prototype\check_media.py --compare <基线>` | exit 0（媒体不减少） |
-| 核查产物 | `python prototype\check_verify.py` | exit 0（findings 格式/计数一致） |
-| 技能套件 | `python prototype\check_skills.py` | exit 0（frontmatter/README/DSH 部署一致） |
-| **一键全检** | `powershell -ExecutionPolicy Bypass -File skills\check_all.ps1` | exit 0（结构+媒体+核查+技能+密钥五道闸） |
+| 数据与技能四项 | `python prototype\check_all.py` | exit 0（结构/媒体/核查/技能，单进程） |
+| **一键全检** | `powershell -ExecutionPolicy Bypass -File skills\check_all.ps1` | exit 0（四项+密钥泄漏） |
+| 单项：结构 | `python prototype\check_dataset.py` | exit 0 |
+| 单项：媒体 | `python prototype\check_media.py --compare <基线>` | exit 0 |
+| 单项：核查 | `python prototype\check_verify.py` | exit 0 |
+| 单项：技能 | `python prototype\check_skills.py` | exit 0 |
 | 命令有效性 | `orchestrator.py manifest` / `make_cases.py --help` / `harvest_daily.py --dry-run` | 能跑通 |
 
 ## 维护约定
@@ -57,7 +58,10 @@ powershell -ExecutionPolicy Bypass -File skills\sync_skills.ps1
 3. 新踩的坑 → 写进对应 skill 的「踩坑/历史教训」或「排障表」；
 4. 结构/组装类事实只在 `factcheck-organize` 写全；判定类只在 `factcheck-three-layer` 写全；
 5. PowerShell 辅助脚本用 **ASCII 注释**（或存 UTF-8 BOM）——中文注释在
-   Windows PowerShell 5.1 无 BOM 时会被按 GBK 误读，导致解析错误。
+   Windows PowerShell 5.1 无 BOM 时会被按 GBK 误读，导致解析错误；
+6. venv 基于 Windows Store Python 时，`WindowsApps` 别名解析偶发失败
+   （"did not find executable" / "Unable to create process"）——`check_all.ps1`
+   已内置 4 次退避重试；若持续失败，用非 Store Python 重建 venv。
 
 ## 变更历史
 
