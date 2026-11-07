@@ -1,4 +1,4 @@
-﻿# 发布前一键自检：结构 + 媒体存活 + 核查产物 + 密钥泄漏
+﻿# 发布前一键自检：结构 + 媒体存活 + 核查产物 + 技能套件 + 密钥泄漏
 # 用法：powershell -ExecutionPolicy Bypass -File skills\check_all.ps1
 $ErrorActionPreference = 'Continue'
 $root = Split-Path $PSScriptRoot -Parent
@@ -7,11 +7,11 @@ $py = "fake_news_env\Scripts\python.exe"
 $env:PYTHONIOENCODING = 'utf-8'
 $fail = 0
 
-Write-Host "[1/4] 数据集结构校验 ..."
+Write-Host "[1/5] 数据集结构校验 ..."
 & $py prototype\check_dataset.py
 if ($LASTEXITCODE -ne 0) { $fail++ }
 
-Write-Host "[2/4] 媒体存活校验 ..."
+Write-Host "[2/5] 媒体存活校验 ..."
 $baseline = "metadata\media_baseline.json"
 if (Test-Path $baseline) {
     & $py prototype\check_media.py --compare $baseline
@@ -21,11 +21,15 @@ if (Test-Path $baseline) {
     Write-Host "  已生成基线（首次运行），下次将对比"
 }
 
-Write-Host "[3/4] 核查产物校验 ..."
+Write-Host "[3/5] 核查产物校验 ..."
 & $py prototype\check_verify.py
 if ($LASTEXITCODE -ne 0) { $fail++ }
 
-Write-Host "[4/4] 密钥泄漏扫描 ..."
+Write-Host "[4/5] 技能套件自检 ..."
+& $py prototype\check_skills.py
+if ($LASTEXITCODE -ne 0) { $fail++ }
+
+Write-Host "[5/5] 密钥泄漏扫描 ..."
 $strict = git grep -I -E 'AIzaSy[0-9A-Za-z_-]{20,}|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY|ghp_[0-9A-Za-z]{30,}|sk-[A-Za-z0-9]{32,}' 2>$null
 if ($LASTEXITCODE -eq 0 -and $strict) {
     Write-Host "  [FAIL] 发现疑似密钥：" -ForegroundColor Red

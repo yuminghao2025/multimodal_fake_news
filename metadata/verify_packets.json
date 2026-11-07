@@ -1,6 +1,6 @@
 {
  "schema_version": "verify.v2",
- "generated_at": "2026-11-04T14:19:30+00:00",
+ "generated_at": "2026-11-07T09:32:52+00:00",
  "source_events": "metadata/events.json",
  "count": 96,
  "by_severity": {

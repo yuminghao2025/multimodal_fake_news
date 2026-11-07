@@ -46,7 +46,8 @@ powershell -ExecutionPolicy Bypass -File skills\sync_skills.ps1
 | 数据集结构 | `python prototype\check_dataset.py` | exit 0（六件套/命名/字段/孤儿） |
 | 媒体存活 | `python prototype\check_media.py --compare <基线>` | exit 0（媒体不减少） |
 | 核查产物 | `python prototype\check_verify.py` | exit 0（findings 格式/计数一致） |
-| **一键全检** | `powershell -ExecutionPolicy Bypass -File skills\check_all.ps1` | exit 0（结构+媒体+核查+密钥四道闸） |
+| 技能套件 | `python prototype\check_skills.py` | exit 0（frontmatter/README/DSH 部署一致） |
+| **一键全检** | `powershell -ExecutionPolicy Bypass -File skills\check_all.ps1` | exit 0（结构+媒体+核查+技能+密钥五道闸） |
 | 命令有效性 | `orchestrator.py manifest` / `make_cases.py --help` / `harvest_daily.py --dry-run` | 能跑通 |
 
 ## 维护约定
