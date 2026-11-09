@@ -2,7 +2,7 @@
 name: factcheck-collect
 description: 多模态虚假新闻数据集采集 SOP——X/YouTube/核查站三通道采集、常用核查源网址清单、配额治理、幂等去重、每日收割；编排与结构组装分别见 factcheck-pipeline / factcheck-organize。
 whenToUse: 当需要为多模态虚假新闻数据集采集新样本（YouTube 搜索/媒体、X 真浏览器采集、核查站列表）、运行每日收割 harvest_daily、或需要查常用核查源/辟谣平台网址时使用；用户提到「采集/收割/扩数据集/采一批数据/去哪个站查」时触发。批量采集+下游编排请改走 factcheck-pipeline。
-version: 1.5.0
+version: 1.6.0
 ---
 
 # factcheck-collect — 多模态虚假新闻数据集采集 SOP
@@ -92,8 +92,9 @@ $env:HTTP_PROXY='http://127.0.0.1:7897'           # 命令行/Python 默认不�
 |---|---|---|
 | AFP Fact Check | 403（Cloudflare） | 需浏览器登录态或镜像 |
 | EUvsDisinfo | 连接重置 | 换代理/重试；可按 DISINFO 条目检索 |
-| 腾讯较真（fact.qq.com） | JS 渲染（锚点 0） | 需抓 JSON 或浏览器；暂缓 |
-| 澎湃明查 / 上海辟谣 | URL 404 | 需正确栏目入口 |
+| 腾讯较真（fact.qq.com） | **已排查**：JS 渲染、无公开 API（页面无 api 线索） | 暂缓；需浏览器自动化 |
+| 澎湃明查（factpaper.cn） | **已排查**：SPA；`api.factpaper.cn` 存在但路径私有（全 404） | 暂缓；需抓包/签名 |
+| 上海网络辟谣（piyao.jfdaily.com） | **已排查**：502 / 连接重置 | 暂缓；需可用通道 |
 | AP / Reuters / BBC Verify | 403 / 401 / 连接重置 | 需订阅或登录通道 |
 | StopFake | 连接重置 | 代理重试 |
 | Spravdi / Polygraph / India Today / GADMO | 未实测 | 接入前先 1 条试跑 |
@@ -104,8 +105,18 @@ $env:HTTP_PROXY='http://127.0.0.1:7897'           # 命令行/Python 默认不�
   含 `ClaimReview`（`claimReviewed` / `textualRating` / `url`）。抓文章页后解析 JSON-LD
   即得结构化评级——**比解析 HTML 文案稳**。已实测 Maldita 命中（ratingValue 存在）。
 - **Google Fact Check Tools API**：`claims:search?query=...&key=...` 聚合全球 ClaimReview；
-  **需在 Google Cloud 单独开通 Fact Check Tools API**（现有 YT_API_KEY 默认未开通）。
-  开通后可作为「检索查证员」的聚合入口。
+  **需在 Google Cloud 单独开通**（现有 YT_API_KEY 默认未开通）。开通步骤：
+
+  1. 打开 <https://console.cloud.google.com/>，创建或选择项目；
+  2. 左侧 **APIs & Services → Library**，搜 **Fact Check Tools API**，点 **Enable**；
+  3. **APIs & Services → Credentials → Create credentials → API key**，复制 key；
+  4. （建议）编辑 key 的 API restrictions，只允许 Fact Check Tools API，防滥用；
+  5. 本机设置：`setx FACTCHECK_API_KEY "你的key"`（重开终端生效），或临时 `$env:FACTCHECK_API_KEY='...'`；
+  6. 测试：`python prototype\google_factcheck.py --query "covid" --limit 5`。
+
+  **计费**：该 API 有免费配额；若控制台提示需绑定结算账户，按提示绑定即可（正常小批量使用不产生费用，以控制台配额页为准）。
+  **脚本**：`prototype\google_factcheck.py` 已实现（无 key 会提示，假 key 会如实报 400）；结果落
+  `metadata/news/google/google__{日期}.jsonl`（claim/rating/publisher/url/date）。
 
 ### 2.5 二期规划（暂缓，先 1 站 1 栏目验证）
 
@@ -258,6 +269,8 @@ GroundLie360（`github.com/yangbingjian/GroundLie360`，标注体系对齐对象
 
 ## 变更记录
 
+- **1.6.0**（2026-11-09）：腾讯较真/澎湃明查/上海辟谣 排查结论（暂缓原因写入 §2.3）；
+  Google Fact Check Tools API 开通步骤 + `google_factcheck.py` 客户端落地。
 - **1.5.0**（2026-11-09）：适配层扩为四类通道（html/rss/wpjson/blogger）；新增 8 站
   （mygopen/tfc/factchecklab/correctiv/altnews/newtral/maldita + wpjson 自定义 post_type 支持）；
   已接线 12 站全部实测；新增 ClaimReview/Google Fact Check Tools API 说明。
