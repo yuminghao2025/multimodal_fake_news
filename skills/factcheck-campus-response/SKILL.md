@@ -2,7 +2,7 @@
 name: factcheck-campus-response
 description: 校园谣言处置 SOP——发现谣言后对帖子与评论做情感分析、识别学生诉求、分级研判并给出回应口径；输入接 factcheck-campuswall 的采集产物与 factcheck-pipeline 的核查结论，输出舆情简报。
 whenToUse: 当校园场景发现一则谣言（校园墙/群聊/公众号/社媒），需要分析评论区情绪、梳理学生诉求、判断舆情风险、撰写回应口径或上报材料时使用；用户提到「校园谣言/评论情感/舆情分析/学生诉求/回应/澄清/舆情简报」时触发。
-version: 1.0.0
+version: 1.1.0
 ---
 
 # factcheck-campus-response — 校园谣言处置：情感分析 + 诉求识别 + 回应建议
@@ -60,6 +60,20 @@ version: 1.0.0
 
 **质量门槛**：LLM 打标后人工抽检 ≥10%（不少于 20 条），一致率 <90% 时修订标注口径重标。
 
+**工具（词典基线 + LLM 提示词生成）**：
+
+```powershell
+$py = "fake_news_env\Scripts\python.exe"
+# 1) 词典基线：打标 + 导出 CSV + 打印聚合摘要
+& $py prototype\campus_sentiment.py --input <comments.jsonl> --out metadata\campus_annotated.csv --summary
+# 2) 生成分批 LLM 打标提示词（每批 20 条，含 JSON schema 与铁律）
+& $py prototype\campus_sentiment.py --input <comments.jsonl> --prompt-out metadata\campus_prompt.txt
+```
+
+- 词典基线只做**粗筛**（漏标/误标正常），最终以 LLM/人工标注为准；
+- 样例输入：`skills\factcheck-campus-response\assets\example_comments.jsonl`；
+- CSV 列：`comment_id,polarity,emotion,target,demand,quote,likes,crisis`。
+
 ## 3. 诉求识别（学生到底要什么）
 
 把评论聚成 6 类，逐类统计频次、代表评论、紧迫度：
@@ -87,6 +101,19 @@ version: 1.0.0
 | 紧急 | 人身安全/自杀倾向/涉法/群体性事件苗头 | 立即上报 + 心理干预/保卫/法务联动 |
 
 **分级依据必须写进简报**（传播量、情绪强度、诉求集中度、涉稳风险四项，逐项给证据）。
+
+### 危机信号（安全红线，优先级高于一切分级）
+
+**词表**（命中即触发）：自杀 / 轻生 / 跳楼 / 割腕 / 不想活 / 活不下去 / 想不开 / 自残 /
+伤害自己 / 求救 / 暴力 / 打人 / 砍人 / 性骚扰 / 霸凌 / 报警。
+
+**处理流程（不进入常规分析）**：
+1. 立即转介：校心理中心 / 辅导员 / 保卫处（涉法报警），并告知值班领导；
+2. 保留证据：截图 + 时间戳，**不公开评论人身份**；
+3. 简报中只写"已按危机流程转介"，不描述细节、不引用原话；
+4. 记录时间线与转介凭证，事后复盘。
+
+> `campus_sentiment.py` 的 `crisis` 列命中即提示；但词典必然漏，LLM 打标时须同样识别。
 
 ## 5. 回应口径（三原则 + 模板）
 
@@ -167,4 +194,6 @@ version: 1.0.0
 
 ## 变更记录
 
+- **1.1.0**（2026-11-09）：新增可执行脚本 `prototype\campus_sentiment.py`（词典基线 + CSV + LLM 提示词生成）；
+  新增危机信号词表与转介流程；新增样例 `assets/example_comments.jsonl`；补齐诉求词表（退费/宿舍条件）。
 - **1.0.0**（2026-11-09）：初版（情感打标/诉求六类/分级/口径模板/简报模板/配方）。
