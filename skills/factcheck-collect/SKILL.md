@@ -2,7 +2,7 @@
 name: factcheck-collect
 description: 多模态虚假新闻数据集采集 SOP——X/YouTube/核查站三通道采集、常用核查源网址清单、配额治理、幂等去重、每日收割；编排与结构组装分别见 factcheck-pipeline / factcheck-organize。
 whenToUse: 当需要为多模态虚假新闻数据集采集新样本（YouTube 搜索/媒体、X 真浏览器采集、核查站列表）、运行每日收割 harvest_daily、或需要查常用核查源/辟谣平台网址时使用；用户提到「采集/收割/扩数据集/采一批数据/去哪个站查」时触发。批量采集+下游编排请改走 factcheck-pipeline。
-version: 1.4.0
+version: 1.5.0
 ---
 
 # factcheck-collect — 多模态虚假新闻数据集采集 SOP
@@ -53,45 +53,66 @@ $env:HTTP_PROXY='http://127.0.0.1:7897'           # 命令行/Python 默认不�
 
 ## 2. 采集目标清单（常用网址）
 
-### 2.1 已接线站点（news_probe.py 现成，直接采）
+### 2.1 接入通道（四种源类型，news_probe.py 内置）
 
-| 站点 | 网址 | 语言 | 说明 |
+| 类型 | 适用 | 取值方式 |
+|---|---|---|
+| `html` | 自定义页面 | 正则抓文章链接（piyao/snopes/politifact/fullfact/factcheckorg/maldita） |
+| `rss` | 有 RSS/Atom 的站 | 解析 `<item>`/`<entry>`（factchecklab/newtral） |
+| `wpjson` | WordPress 站 | `/wp-json/wp/v2/{post_type}?per_page=N`；支持 `category` 过滤与自定义 `post_type` |
+| `blogger` | Blogger 站 | `feeds/posts/default?alt=json`（mygopen） |
+
+### 2.2 已接线站点（12 个，直接采）
+
+**中文/华语（4）**
+
+| 站点 | 网址 | 通道 | 说明 |
 |---|---|---|---|
-| 中国互联网联合辟谣平台 | <https://www.piyao.org.cn/> | 中 | 官方法定辟谣平台；注意过滤专项行动通报/倡议书等版式句 |
-| Snopes | <https://www.snopes.com/latest/> | 英 | 评级体系清晰（What's True/False 段落结构），解析器已适配三层映射 |
-| PolitiFact | <https://www.politifact.com/factchecks/> | 英 | Truth-O-Meter 六级评级；文章路径 `/factchecks/年/月/日/分类/slug/`（2026-11-07 实测） |
-| FullFact | <https://fullfact.org/latest/> | 英 | 英国核查；文章路径 `/{栏目}/slug/`（2026-11-07 实测） |
-| FactCheck.org | <https://www.factcheck.org/> | 英 | Annenberg 学术背景；文章路径 `/年/月/slug/`（2026-11-07 实测） |
+| MyGoPen | <https://www.mygopen.com/> | blogger | 标题自带【錯誤】【誤導】标签；医疗/生活谣言量大（繁中） |
+| 台湾事实查核中心 TFC | <https://tfc-taiwan.org.tw/> | wpjson（fact-check-reports） | 评级结构化（錯誤/部分錯誤/證據不足）；政经社会（繁中） |
+| 香港 Factcheck Lab | <https://www.factchecklab.org/> | rss | 独立核查；两岸/国际议题（繁中） |
+| 中国互联网联合辟谣平台 | <https://www.piyao.org.cn/> | html | 官方法定辟谣平台；注意过滤专项行动通报/倡议书等版式句 |
 
-### 2.2 已验证可靠的核查站（档案/审计里实际用过的，接入需写 parse_<site>）
+**外语（8）**
 
-| 站点 | 网址 | 语言 | 强项 |
+| 站点 | 网址 | 通道 | 说明 |
 |---|---|---|---|
-| AFP Fact Check | <https://factcheck.afp.com> | 英/多语 | 全球通讯社核查网，军事/地缘类覆盖好（法语版 factuel.afp.com） |
-| 澎湃明查 | <https://www.thepaper.cn> | 中 | 中文国际事实核查主力栏目 |
-| EUvsDisinfo | <https://euvsdisinfo.eu> | 英 | 欧盟俄宣传数据库，可按 DISINFO 条目检索，含谣言原文存档 |
-| StopFake | <https://www.stopfake.org> | 英/乌 | 俄乌叙事核查，版本演变梳理细 |
-| Spravdi | <https://spravdi.org> | 英/乌 | 乌克兰官方信息对抗中心 |
-| Polygraph | <https://www.polygraph.info> | 英/俄 | RFE/RL 核查，俄语叙事对照好 |
-| India Today Fact Check | <https://www.indiatoday.in/fact-check> | 英 | 南亚谣言，视频类核查多 |
-| Factcheck Lab | <https://www.factchecklab.org> | 中 | 中文独立核查实验室 |
-| GADMO | <https://gadmo.eu> | 德 | 德语区核查协作网 |
-| 澎湃/搜狐"明查"镜像 | （检索"明查 + 主题"） | 中 | 同稿多站分发，引用时任选可点开的一手链接 |
+| Snopes | <https://www.snopes.com/latest/> | html | 评级最全（What's True/False 结构），已适配三层映射 |
+| PolitiFact | <https://www.politifact.com/factchecks/> | html | Truth-O-Meter 六级评级 |
+| FactCheck.org | <https://www.factcheck.org/> | html | Annenberg 学术背景 |
+| FullFact | <https://fullfact.org/latest/> | html | 英国核查 |
+| Correctiv | <https://correctiv.org/faktencheck/> | wpjson（category 109） | 德语事实核查 |
+| Maldita | <https://www.maldita.es/desinfo/> | html | 西语；文章页含 ClaimReview JSON-LD |
+| Newtral | <https://www.newtral.es/feed/> | rss | 西语核查 |
+| AltNews | <https://www.altnews.in/> | wpjson | 英语/南亚事实核查 |
 
-### 2.3 建议补充（主站可达性受网络环境影响，接入前先实测）
+### 2.3 待接 / 被挡（需要通道或另写解析）
 
-| 站点 | 网址 | 语言 | 状态/强项 |
-|---|---|---|---|
-| AFP Fact Check | <https://factcheck.afp.com> | 英/多语 | **实测 403（Cloudflare 拦截）**：需浏览器登录态或镜像才可采；军事/地缘覆盖好 |
-| EUvsDisinfo | <https://euvsdisinfo.eu> | 英 | **实测连接重置**：需代理/重试；可按 DISINFO 条目检索，含谣言原文存档 |
-| Google Fact Check Explorer | <https://toolbox.google.com/factcheck/explorer> | 多语 | **聚合检索器**——查证先用它找核查源，不是采集对象 |
+| 站点 | 实测状态 | 处理 |
+|---|---|---|
+| AFP Fact Check | 403（Cloudflare） | 需浏览器登录态或镜像 |
+| EUvsDisinfo | 连接重置 | 换代理/重试；可按 DISINFO 条目检索 |
+| 腾讯较真（fact.qq.com） | JS 渲染（锚点 0） | 需抓 JSON 或浏览器；暂缓 |
+| 澎湃明查 / 上海辟谣 | URL 404 | 需正确栏目入口 |
+| AP / Reuters / BBC Verify | 403 / 401 / 连接重置 | 需订阅或登录通道 |
+| StopFake | 连接重置 | 代理重试 |
+| Spravdi / Polygraph / India Today / GADMO | 未实测 | 接入前先 1 条试跑 |
 
-### 2.4 二期规划（暂缓，先 1 站 1 栏目验证）
+### 2.4 通用通道补充：ClaimReview + Google API
+
+- **ClaimReview JSON-LD**：核查站文章页常嵌 `<script type="application/ld+json">`，
+  含 `ClaimReview`（`claimReviewed` / `textualRating` / `url`）。抓文章页后解析 JSON-LD
+  即得结构化评级——**比解析 HTML 文案稳**。已实测 Maldita 命中（ratingValue 存在）。
+- **Google Fact Check Tools API**：`claims:search?query=...&key=...` 聚合全球 ClaimReview；
+  **需在 Google Cloud 单独开通 Fact Check Tools API**（现有 YT_API_KEY 默认未开通）。
+  开通后可作为「检索查证员」的聚合入口。
+
+### 2.5 二期规划（暂缓，先 1 站 1 栏目验证）
 
 微博、微信公众号辟谣栏目、Facebook/Instagram 帖文——需 Chrome 登录态或新模板，
 按 roadmap 待办排期；**不要为了让清单好看而仓促接入**。
 
-### 2.5 学术对齐参考（不是采集对象，是对标基准）
+### 2.6 学术对齐参考（不是采集对象，是对标基准）
 
 Fakeddit（`github.com/ljdannull/Fakeddit-Multimodal`）、
 FakeNewsNet（`github.com/KaiDMML/FakeNewsNet`）、
@@ -237,6 +258,9 @@ GroundLie360（`github.com/yangbingjian/GroundLie360`，标注体系对齐对象
 
 ## 变更记录
 
+- **1.5.0**（2026-11-09）：适配层扩为四类通道（html/rss/wpjson/blogger）；新增 8 站
+  （mygopen/tfc/factchecklab/correctiv/altnews/newtral/maldita + wpjson 自定义 post_type 支持）；
+  已接线 12 站全部实测；新增 ClaimReview/Google Fact Check Tools API 说明。
 - **1.4.0**（2026-11-07）：接入 PolitiFact / FullFact / FactCheck.org 三站（news_probe 实测各 5 条）；
   AFP 标注 403、EUvsDisinfo 标注连接重置；已接线站点增至 5 个。
 - **1.3.0**（2026-11-06）：新增配方 E「站点健康检查」（每周例行）。
