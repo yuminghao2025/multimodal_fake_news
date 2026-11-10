@@ -58,6 +58,7 @@ def search(kw: str, limit: int, days: int | None):
             if days and pub and (time.time() - pub) > days * 86400:
                 continue
             items.append({
+                "platform": "bili",
                 "keyword": kw,
                 "title": clean(v.get("title", "")),
                 "author": v.get("author", ""),
@@ -82,17 +83,30 @@ def main() -> None:
     ap.add_argument("--keyword", action="append", required=True, help="可多次传入")
     ap.add_argument("--limit", type=int, default=20, help="每关键词上限")
     ap.add_argument("--days", type=int, default=None, help="只要最近 N 天")
+    ap.add_argument("--must-contain", default=None, help="标题必须含该词（相关性过滤，如校名）")
     a = ap.parse_args()
 
     OUT.mkdir(parents=True, exist_ok=True)
     today = date.today().isoformat()
     for kw in a.keyword:
         items = search(kw, a.limit, a.days)
-        if not items:
-            print(f"[{kw}] 无结果")
-            continue
+        if a.must_contain:
+            items = [i for i in items if a.must_contain in i["title"] or a.must_contain in i["author"]]
+        # 去重：同文件已有 bvid 跳过
         slug = re.sub(r"[^\w\u4e00-\u9fff-]+", "_", kw)[:30]
         out = OUT / f"bili__{slug}__{today}.jsonl"
+        known = set()
+        if out.exists():
+            for line in out.read_text(encoding="utf-8").splitlines():
+                if line.strip():
+                    try:
+                        known.add(json.loads(line).get("bvid"))
+                    except Exception:  # noqa: BLE001
+                        pass
+        items = [i for i in items if i["bvid"] not in known]
+        if not items:
+            print(f"[{kw}] 无新结果（或全被过滤）")
+            continue
         with open(out, "a", encoding="utf-8") as f:
             for i in items:
                 f.write(json.dumps(i, ensure_ascii=False) + "\n")

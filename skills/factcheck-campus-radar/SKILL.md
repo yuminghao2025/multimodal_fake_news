@@ -2,7 +2,7 @@
 name: factcheck-campus-radar
 description: 校园 UGC 舆情雷达——在大型社交内容平台（小红书/ B站/ 微博/ 抖音/ 贴吧/ 知乎等）发现校园谣言爆发或强烈情绪信号：关键词矩阵扫描、相关性过滤、详情与评论采样、信号评分卡、截图+数据存档，产出雷达日报并交接核查/处置。
 whenToUse: 当需要在校园场景「发现」舆情信号——某校谣言是否在社交平台扩散、学生情绪是否异常、某议题是否多平台共振时使用；用户提到「找一下小红书上有没有」「校园舆情监测」「有没有人讨论」「有没有谣言」「情绪怎么样」「跨平台扩散」时触发。单条重点帖的处置走 factcheck-campus-response；公众号/校园墙监测走 factcheck-campuswall。
-version: 1.0.0
+version: 1.1.0
 ---
 
 # factcheck-campus-radar — 校园 UGC 舆情雷达（发现层）
@@ -84,14 +84,20 @@ version: 1.0.0
 ```powershell
 $py = "fake_news_env\Scripts\python.exe"
 
+# 一键日报（XHS + B站 → 去重 → 评分 → reports/radar_日期.md）
+& $py prototype\radar_daily.py --keyword 中传校园网 --keyword "中传 宽带 拆除" --days 30
+
+# 单品评分（对任意 JSONL 信号打分）
+& $py prototype\radar_score.py --input metadata\campus\ugc\bili__中传__2026-11-10.jsonl --out scored.jsonl
+
 # 小红书（项目专用档案，一次扫码长期免登）
 & $py prototype\xhs_profile.py --login          # 首次
 & $py prototype\xhs_profile.py --status
 & $py prototype\xhs_profile.py --search 中传校园网 --list
 & $py prototype\xhs_profile.py --search 中传校园网 --pick 1
 
-# B站（公开 API，无需登录）
-& $py prototype\bili_radar.py --keyword "中传 校园网" --days 30 --limit 20
+# B站（公开 API，无需登录；相关性弱，需 --must-contain 过滤）
+& $py prototype\bili_radar.py --keyword 中传 --must-contain 校园网 --days 30 --limit 20
 
 # 通用网页（知乎/B站评论页等 JS 页面）
 & $py prototype\web_reader.py --url "<URL>" --tag <标签>
@@ -152,7 +158,18 @@ $py = "fake_news_env\Scripts\python.exe"
 - [ ] 评分卡六维有数，分级有依据；
 - [ ] 未采集个人隐私字段，未展示个人主页。
 
-## 9. 变更记录
+## 9. 已知局限（打分时须知）
 
-- **1.0.0**（2026-11-10）：初版。平台矩阵（XHS/B站已实现，微博/抖音/贴吧/知乎/视频号待接）；
-  关键词矩阵；评分卡；截图规范；日报模板；排障。
+- **小红书搜索接口只给标题/赞数**，无发布时间与评论数 → `增长` 维度按中性 10 分处理，
+  真实热度需 `--pick N` 展开详情后人工校准；
+- **B站搜索相关性弱**（"中传校园网"会返回北航内容）→ 必须 `--must-contain` 或按校名搜+题名过滤；
+  实测 B站同题视频很少（校园网议题主要在小红书），0 条属正常；
+- **评分卡是规则近似**（±10 分误差），`紧急` 必须人工确认；
+- 噪声词降权（小说/插画/翻唱/短片等 -12 分）只覆盖常见类型，漏网需人工剔除；
+- 小红书评论/转发数字：赞/藏/评可见，**转发数不公开**（界面只给分享按钮）。
+
+## 10. 变更记录
+
+- **1.1.0**（2026-11-10）：落地可执行工具链 `radar_score.py`（六维评分）+
+  `radar_daily.py`（XHS+B站一键日报）；B站采集器加重试/去重/`--must-contain`；
+  新增"已知局限"（XHS 搜索无日期/评论数、B站相关性弱、转发数不公开、评分±10）。
