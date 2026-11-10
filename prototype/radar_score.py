@@ -23,7 +23,11 @@ RUMOR = ["真的吗", "听说", "网传", "据说", "求证", "是不是真", "�
          "必须", "已经", "确定"]
 MONEY = ["钱", "收费", "退费", "退款", "违约金", "赔偿", "免费", "流量", "套餐", "押金"]
 SAFETY = ["自杀", "轻生", "霸凌", "打人", "砍人", "性骚扰", "报警", "暴力"]
-NOISE = ["小说", "求上", "插画", "笑话", "翻唱", "短片", "表情包", "头像", "壁纸"]
+NOISE = ["小说", "求上", "插画", "笑话", "翻唱", "短片", "表情包", "头像", "壁纸",
+         "报考", "保研", "考研", "招生", "录取", "分数线", "薪资", "专业含金量",
+         "亲嘴", "毕业", "日常", "攻略"]
+TOPIC = ["校园网", "宽带", "流量", "收费", "拆", "退费", "退钱", "网速", "限速",
+         "计费", "套餐", "违约金", "骗", "卡爆"]
 
 
 def num(v, default=0):
@@ -82,6 +86,8 @@ def score(item: dict) -> dict:
     total = vol + growth + emo + cross + interest + rumor
     if any(w in text for w in NOISE):
         total = max(0, total - 12)
+    if not any(w in text for w in TOPIC):
+        total = max(0, total - 8)
     tier = "紧急" if safety or total >= 80 else "高" if total >= 60 else "中" if total >= 40 else "低"
     return {"score": total, "tier": tier,
             "breakdown": {"传播量": vol, "增长": growth, "情绪": emo,
@@ -93,14 +99,21 @@ def main() -> None:
     ap.add_argument("--input", required=True)
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
+    raw = Path(a.input).read_text(encoding="utf-8").strip()
     rows = []
-    for line in Path(a.input).read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        it = json.loads(line)
-        s = score(it)
-        it.update(s)
-        rows.append(it)
+    if raw.startswith("["):
+        for it in json.loads(raw):
+            s = score(it)
+            it.update(s)
+            rows.append(it)
+    else:
+        for line in raw.splitlines():
+            if not line.strip():
+                continue
+            it = json.loads(line)
+            s = score(it)
+            it.update(s)
+            rows.append(it)
     rows.sort(key=lambda x: -x["score"])
     print(f"{'分':>4} {'级':<3} {'平台':<5} {'标题'}")
     for r in rows[:30]:
