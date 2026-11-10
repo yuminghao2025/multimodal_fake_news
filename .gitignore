@@ -31,3 +31,6 @@ Thumbs.db
 
 # ---- index 回填前的备份（保留本地，不入库）----
 metadata/index_backup_*.json
+
+# ---- 项目专用浏览器档案（含登录 cookie，绝不入库）----
+browser_profile/

@@ -2,7 +2,7 @@
 name: factcheck-campus-response
 description: 校园谣言处置 SOP——发现谣言后对帖子与评论做情感分析、识别学生诉求、分级研判并给出回应口径；输入接 factcheck-campuswall 的采集产物与 factcheck-pipeline 的核查结论，输出舆情简报。
 whenToUse: 当校园场景发现一则谣言（校园墙/群聊/公众号/社媒），需要分析评论区情绪、梳理学生诉求、判断舆情风险、撰写回应口径或上报材料时使用；用户提到「校园谣言/评论情感/舆情分析/学生诉求/回应/澄清/舆情简报」时触发。
-version: 1.5.0
+version: 1.6.0
 ---
 
 # factcheck-campus-response — 校园谣言处置：情感分析 + 诉求识别 + 回应建议
@@ -88,8 +88,37 @@ version: 1.5.0
 
 **读取工具（真浏览器路线，实测可用）**：
 - 通用网页：`python prototype\web_reader.py --url <URL> --tag <标签>`（任意 JS 渲染页）；
-- 小红书：`python prototype\xhs_reader.py --keyword <词> --list`（列结果）/ `--pick N`（读原文）；
-- 前置：Chrome 在线 + mcp-chrome 扩展 Connected；小红书需**登录态**（扫码/微信授权均可）。
+- 小红书（借用主 Chrome，临时）：`python prototype\xhs_reader.py --keyword <词> --list` / `--pick N`；
+- 小红书（**项目专属档案，推荐**）：`python prototype\xhs_profile.py --login` 一次扫码，
+  之后 `--status` / `--search <词> --pick N` / `--read <笔记URL>` 长期免登；
+- 前置：Chrome 在线；xhs_reader 需主 Chrome 已登录小红书；xhs_profile 需专用档案已登录。
+
+### 1.7 项目专属浏览器档案（一次扫码，长期免登）
+
+**适用**：项目不能使用个人账号；需要长期、可复现地读取小红书原文。
+
+**原理**：独立 Chrome 用户目录 `browser_profile/xhs/` + 远程调试端口 9333。
+首次 `--login` 弹窗扫码，cookie 落盘；之后每次启动同一档案自动是登录态。
+
+```powershell
+$py = "fake_news_env\Scripts\python.exe"
+& $py prototype\xhs_profile.py --login            # 首次：弹窗扫码（手机需点"确认登录"）
+& $py prototype\xhs_profile.py --status           # 查看登录状态
+& $py prototype\xhs_profile.py --search 中传校园网 --pick 1   # 搜索并读第 N 条
+& $py prototype\xhs_profile.py --read "<带 xsec_token 的笔记URL>"
+& $py prototype\xhs_profile.py --logout           # 清 cookie（换号/停用）
+```
+
+**安全铁律**：
+1. `browser_profile/` 已在 `.gitignore`，**cookie 等同账号，绝不入库/外传**；
+2. 项目账号建议用专用小号；`--logout` 可随时退出；
+3. 档案是明文 cookie，不要把该目录拷给别人；换机需重新扫码。
+
+**排障**：
+- 扫了没反应 → 手机端必须点"确认登录"；二维码会过期，刷新后重新扫；
+- `Chrome 调试端口未就绪` → 同档案已有实例在跑，先关掉该窗口/进程再跑；
+- 登录检测以 `web_session` cookie 为准（API 跨域可能取不到昵称，属正常）；
+- 需要证明"当前是哪个账号"时，看 `browser_profile/xhs/Default/Cookies` 对应账号，或直接在窗口里看头像。
 
 ### 1.6 引用即读取（cite = read，铁律）
 
@@ -270,6 +299,8 @@ $py = "fake_news_env\Scripts\python.exe"
 
 ## 变更记录
 
+- **1.6.0**（2026-11-10）：新增 §1.7 项目专属浏览器档案（一次扫码长期免登；
+  browser_profile 不入库；--login/--status/--search/--read/--logout；排障）。
 - **1.5.0**（2026-11-10）：接入小红书原文读取（xhs_reader.py，搜索接口 xsec_token 流程）；
   通用网页读取器 web_reader.py；跨平台佐证升级为"可读原文+自动存档"。
 - **1.4.0**（2026-11-10）：新增 §1.6「引用即读取」铁律——禁止引用未读页面，

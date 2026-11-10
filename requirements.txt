@@ -27,3 +27,4 @@ urllib3==2.8.0
 win32_setctime==1.2.0
 winregistry==2.1.5
 yt-dlp==2026.8.19
+websocket-client==1.9.2
