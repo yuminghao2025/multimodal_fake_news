@@ -34,3 +34,6 @@ metadata/index_backup_*.json
 
 # ---- 项目专用浏览器档案（含登录 cookie，绝不入库）----
 browser_profile/
+
+# ---- 校园雷达凭据缓存（绝不入库；文件本体可留在本地）----
+metadata/campus/*tokens*.json
