@@ -14,7 +14,7 @@ MEDIA_DIR = ROOT / 'media' / 'x_test_daily'
 OUT = ROOT / 'metadata' / 'x_test_daily.jsonl'
 PROXY = 'http://127.0.0.1:7897'
 TARGET = 3
-QUERY = '日常生活 照片 -filter:replies'
+QUERY = 'daily life photo'
 
 def url_for_tweety(t):
     u = getattr(t, 'url', None)
@@ -28,7 +28,7 @@ async def main():
     (MEDIA_DIR / 'images').mkdir(parents=True, exist_ok=True)
 
     got, attempts = [], 0
-    queries = ['日常生活 照片 -filter:replies', '我的日常 filter:photos', 'daily life photo']
+    queries = ['daily life photo -filter:replies', 'my morning coffee filter:photos', 'weekend walk filter:photos', '일상 daily life']
     async with httpx.AsyncClient(proxy=PROXY, timeout=60) as dl:
         for q in queries:
             if len(got) >= TARGET:
@@ -49,7 +49,7 @@ async def main():
                     rec = {
                         'tweet_id': str(t.id), 'author': getattr(t.user, 'username', '?'),
                         'created_at': getattr(t, 'date', None).__str__() if getattr(t, 'date', None) else None,
-                        'text': (t.rawContent or '')[:120], 'tweet_url': url_for_tweety(t),
+                        'text': (t.rawContent or '')[:120], 'lang': getattr(t, 'lang', None), 'tweet_url': url_for_tweety(t),
                         'photos': [getattr(m, 'url', '') for m in photos], 'query': q,
                     }
                     saved = []
@@ -78,3 +78,4 @@ async def main():
     print(f'== 完成：抓到 {len(got)}/{TARGET} ｜ 产物 {MEDIA_DIR} + {OUT}')
 
 asyncio.run(main())
+
