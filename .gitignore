@@ -40,3 +40,7 @@ metadata/campus/*tokens*.json
 
 accounts.db
 accounts.db-*
+.hf_cache/
+.tmp_pip/
+.models/
+metadata/embeddings_cache.npz

@@ -1,0 +1,297 @@
+# -*- coding: utf-8 -*-
+"""归簇 Agent v2：语义 + 词面混合相似度的事件簇归并。
+
+解决 v1 的自认短板（agent_cluster.py docstring）：
+  词面相似度只能抓"近乎同文"的重复（跨平台搬运、同视频多号上传），
+  抓不了"同一事件的不同说法"——跨语言（英↔中）与转述式（paraphrase）重复。
+
+方法（依据 documentation/技术升级调研_2026-11-19.md 实读清单）：
+  1. **多语言语义向量**：sentence-transformers paraphrase-multilingual-MiniLM-L12-v2
+     （SBERT 系，50+ 语言，针对同义改写训练；PFCR/CheckThat Task3 的主流做法）。
+     标题与正文分别编码后加权融合（0.7/0.3）——主张判断主要发生在标题层。
+  2. **词面向量保留**：完全复用 v1 的 tokenize/TF-IDF/containment。
+  3. **组合规则**：sim = max(语义cos, 词面sim)。
+     词面 ≥ v1 阈值(0.45)的对沿用 v1 决策直接并（v2 ⊇ v1，不回退）；
+     语义通道带标题长度门槛（双方 ≥40 字符）：短文本 embedding 只剩主题信号
+     （"FAKE NEWS!!!" vs "Não é fake News" 会虚高到 0.83）。
+  4. **average-linkage 凝聚聚类**：复用 v1 的 cluster()，默认阈值 0.85（精度优先）。
+  5. **候选清单**：[0.75, 0.85) 的近失对不自动并，写入 candidates 供人工复核
+     （CheckThat claim-matching 实践：检索排序 + 人工一票定）。
+  6. **诚实边界**：本语料实测发现"同系列不同集"（A Solid 10/11/13 Minutes，
+     语义 0.89+）比"真同事件"（Trump-CNN 家族，0.83-0.89）分数还高——纯文本
+     embedding 区分不了"同格式系列"与"同事件"，需要实体/频道/时间归一（下一版）。
+     短门槛恰好把本语料的系列对挡住（标题 37 字符 <40），但这是巧合不是保证。
+     自动并的可信、candidates 按相似度排序给人工、未合并不代表不同事件。
+
+模型下载走 HF 镜像（HF_ENDPOINT 可覆盖）；embedding 落盘缓存，避免重复编码。
+
+输出 metadata/events_v2.json（events.v2），另加 --compare 输出 v1/v2 对比报告。
+"""
+from __future__ import annotations
+
+import json
+import os
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+# HF 直连在国内不稳定：默认走镜像，可用环境变量覆盖
+os.environ.setdefault("HF_ENDPOINT", "https://hf-mirror.com")
+
+import numpy as np
+
+from common import METADATA_DIR, ROOT
+import agent_cluster as v1
+
+DATASET_DIR = ROOT / "dataset"
+INDEX = DATASET_DIR / "index.json"
+OUT = METADATA_DIR / "events_v2.json"
+CACHE = METADATA_DIR / "embeddings_cache.npz"
+
+MODEL_NAME = os.environ.get("ZT_EMBED_MODEL", "paraphrase-multilingual-MiniLM-L12-v2")
+BLEND_TITLE = 0.7      # 标题向量权重
+BLEND_BODY = 0.3       # 正文向量权重
+BODY_CHARS = 600
+SEM_MIN_TITLE = 40     # 语义通道门槛：双方标题都 ≥40 字符才允许纯语义合并
+                       # （短文本 embedding 只剩主题信号，"FAKE NEWS!!!" 式虚高）
+DEFAULT_THRESHOLD = 0.85
+CURVE = (0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.88, 0.90)
+
+
+def _model():
+    from sentence_transformers import SentenceTransformer
+    return SentenceTransformer(MODEL_NAME)
+
+
+def _encode(model, texts: list[str]) -> np.ndarray:
+    return model.encode(texts, batch_size=32, show_progress_bar=False,
+                        normalize_embeddings=True)
+
+
+def embed_case_texts(cases: list[dict]) -> tuple[np.ndarray, np.ndarray, dict]:
+    """返回 (title_vecs, fused_vecs, cache_info)。标题/正文分别编码后融合；带落盘缓存。"""
+    titles = [(c.get("title") or c.get("id") or "").strip() for c in cases]
+    bodies: list[str] = []
+    for c in cases:
+        paths = [p for p in (c.get("files", {}).get("text") or []) if p.endswith("text.txt")]
+        body = ""
+        if paths:
+            p = DATASET_DIR / paths[0]
+            if p.exists():
+                raw = p.read_text(encoding="utf-8", errors="replace")
+                body = "\n".join(l for l in raw.splitlines() if not l.startswith("#"))
+                body = body[:BODY_CHARS]
+        bodies.append(body or titles[len(bodies)])
+
+    sig = f"{MODEL_NAME}|{len(cases)}|" + "|".join(t[:40] for t in titles)
+    if CACHE.exists():
+        blob = np.load(CACHE, allow_pickle=False)
+        if str(blob["sig"]) == sig:
+            return blob["titles"], blob["fused"], {"cache": "hit"}
+
+    model = _model()
+    tv = _encode(model, titles)
+    bv = _encode(model, bodies)
+    fused = BLEND_TITLE * tv + BLEND_BODY * bv
+    norm = np.linalg.norm(fused, axis=1, keepdims=True)
+    norm[norm == 0] = 1.0
+    fused = fused / norm
+    CACHE.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(CACHE, sig=np.array(sig), titles=tv, fused=fused)
+    return tv, fused, {"cache": "miss"}
+
+
+def semantic_matrix(fused: np.ndarray) -> dict[tuple[int, int], float]:
+    n = fused.shape[0]
+    sim: dict[tuple[int, int], float] = {}
+    for i in range(n):
+        for j in range(i + 1, n):
+            s = float(np.dot(fused[i], fused[j]))
+            if s > 0.30:
+                sim[(i, j)] = s
+    return sim
+
+
+def run(params: dict) -> dict:
+    threshold = float(params.get("threshold") or DEFAULT_THRESHOLD)
+    max_size = int(params.get("max_size") or 60)
+    source = params.get("source") or "index"
+    compare = bool(params.get("compare"))
+
+    cases = v1.load_cases(source)
+    if not cases:
+        return {"status": "error", "error": "没有可聚类的案例（dataset/index.json 为空？）"}
+
+    n = len(cases)
+    tv, fused, cache_info = embed_case_texts(cases)
+    sem = semantic_matrix(fused)
+
+    # 词面：完全复用 v1
+    vecs = v1.build_vectors([v1.case_tokens(c) for c in cases])
+    lex = v1.pair_matrix(vecs)
+
+    def pair(a: int, b: int) -> tuple[int, int]:
+        return (a, b) if a < b else (b, a)
+
+    hybrid: dict[tuple[int, int], float] = {}
+    titles = [(c.get("title") or c.get("id") or "") for c in cases]
+    keys = set(sem) | set(lex)
+    for k in keys:
+        s, l = sem.get(k, 0.0), lex.get(k, 0.0)
+        # 语义通道带长度门槛：短标题对只剩主题信号，纯语义并会误伤
+        if min(len(titles[k[0]]), len(titles[k[1]])) < SEM_MIN_TITLE:
+            s = 0.0
+        # v1 已自动并的对（词面 ≥ v1 阈值）沿用 v1 决策，不回退：v2 ⊇ v1
+        if l >= v1.DEFAULT_THRESHOLD:
+            hybrid[k] = 1.0
+            continue
+        # 取 max 而非加权：跨语言对词面≈0，加权会系统性压低；
+        # max = "语义或词面任一足够像" — 两个通道各守各的强项
+        m = max(s, l)
+        if m > 0.10:
+            hybrid[k] = m
+
+    groups, merges = v1.cluster(hybrid, n, threshold, max_size)
+
+    # 近失候选：[threshold-0.10, threshold) 的对不自动并，进人工复核清单
+    # （CheckThat claim-matching 实践：检索排序 + 人工一票定）
+    candidates = []
+    for (i, j), s in sorted(hybrid.items(), key=lambda kv: -kv[1]):
+        if threshold - 0.10 <= s < threshold:
+            a, b = cases[i], cases[j]
+            candidates.append({
+                "sim": round(s, 3),
+                "semantic": round(sem.get((i, j) if i < j else (j, i), 0.0), 3),
+                "lexical": round(lex.get((i, j) if i < j else (j, i), 0.0), 3),
+                "pair": [a.get("id"), b.get("id")],
+                "titles": [(a.get("title") or "")[:80], (b.get("title") or "")[:80]],
+                "platforms": [a.get("platform"), b.get("platform")],
+            })
+
+    def to_events(groups_: list[list[int]], tag: str):
+        out = []
+        for rank, g in enumerate(groups_, 1):
+            members = [cases[i] for i in g]
+            plat: dict[str, int] = {}
+            for m in members:
+                plat[m.get("platform") or "unknown"] = plat.get(m.get("platform") or "unknown", 0) + 1
+            langs = sorted({(m.get("lang") or m.get("topic") or "?")[:2] for m in members})
+            out.append({
+                "event_id": f"{tag}{rank:02d}",
+                "size": len(members),
+                "platforms": plat,
+                "multi_platform": len(plat) >= 2,
+                "langs": langs,
+                "claims": [{"case_id": m.get("id"), "title": (m.get("title") or "")[:140],
+                            "platform": m.get("platform")} for m in members][:12],
+                "case_ids": [m.get("id") for m in members],
+            })
+        return out
+
+    events = to_events(groups, "E")
+
+    payload = {
+        "schema_version": "events.v2",
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "source": source,
+        "model": MODEL_NAME,
+        "combine": "max(semantic, lexical) + 语义通道标题长度门槛",
+        "weights": {"title_blend": BLEND_TITLE, "body_blend": BLEND_BODY,
+                    "sem_min_title": SEM_MIN_TITLE},
+        "params": {"threshold": threshold, "max_size": max_size},
+        "case_count": n,
+        "count": len(events),
+        "singletons": sum(1 for e in events if e["size"] == 1),
+        "reduction": round(1 - len(events) / n, 3),
+        "pair_curve": {f"{t:.2f}": sum(1 for s in hybrid.values() if s >= t) for t in CURVE},
+        "merges": [{"avg_sim": round(m["avg_sim"], 3),
+                    "pair": [cases[m["a"]]["id"], cases[m["b"]]["id"]],
+                    "titles": [(cases[m["a"]].get("title") or "")[:80],
+                               (cases[m["b"]].get("title") or "")[:80]],
+                    "sizes": m["sizes"]} for m in merges],
+        "candidates": candidates,
+        "events": events,
+        "cache": cache_info,
+    }
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    result = {
+        "status": "ok",
+        "outputs": {"path": "metadata/events_v2.json", "model": MODEL_NAME,
+                    "case_count": n, "event_count": len(events),
+                    "reduction": payload["reduction"], "merges": len(merges),
+                    "cache": cache_info["cache"]},
+        "metrics": {"cases": n, "events": len(events),
+                    "largest": events[0]["size"] if events else 0},
+        "next": ["verify"],
+    }
+
+    if compare:
+        v1_path = METADATA_DIR / "events.json"
+        report: dict = {"threshold": threshold, "v2_events": len(events)}
+        if v1_path.exists():
+            v1_data = json.loads(v1_path.read_text(encoding="utf-8"))
+            v1_events = v1_data.get("events", [])
+            v1_pairs = set()
+            for e in v1_events:
+                ids = e.get("case_ids", [])
+                for a in range(len(ids)):
+                    for b in range(a + 1, len(ids)):
+                        v1_pairs.add((ids[a], ids[b]))
+            v2_pairs = set()
+            for e in events:
+                ids = e.get("case_ids", [])
+                for a in range(len(ids)):
+                    for b in range(a + 1, len(ids)):
+                        v2_pairs.add((ids[a], ids[b]))
+            new_pairs = sorted(v2_pairs - v1_pairs)
+            lost_pairs = sorted(v1_pairs - v2_pairs)
+            cross_lang = []
+            id2c = {c["id"]: c for c in cases}
+            for a, b in new_pairs:
+                la = (id2c[a].get("lang") or "")[:2]
+                lb = (id2c[b].get("lang") or "")[:2]
+                if la and lb and la != lb:
+                    cross_lang.append({"pair": [a, b],
+                                       "titles": [id2c[a].get("title", "")[:70],
+                                                  id2c[b].get("title", "")[:70]]})
+            report.update({
+                "v1_events": len(v1_events),
+                "v2_events": len(events),
+                "merged_pairs_v1": len(v1_pairs),
+                "merged_pairs_v2": len(v2_pairs),
+                "new_pairs_in_v2": len(new_pairs),
+                "lost_pairs_in_v2": len(lost_pairs),
+                "cross_language_new": cross_lang[:20],
+                "new_pair_examples": [
+                    {"pair": list(p),
+                     "titles": [id2c[p[0]].get("title", "")[:70],
+                                id2c[p[1]].get("title", "")[:70]]}
+                    for p in new_pairs[:20]],
+                "lost_pair_examples": [
+                    {"pair": list(p),
+                     "titles": [id2c[p[0]].get("title", "")[:70],
+                                id2c[p[1]].get("title", "")[:70]]}
+                    for p in lost_pairs[:20]],
+            })
+        (METADATA_DIR / "cluster_v1_vs_v2.json").write_text(
+            json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
+        result["outputs"]["compare"] = "metadata/cluster_v1_vs_v2.json"
+        result["metrics"].update({k: report[k] for k in
+                                  ("v1_events", "v2_events", "new_pairs_in_v2",
+                                   "lost_pairs_in_v2") if k in report})
+    return result
+
+
+if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser(description="语义+词面混合归簇 v2")
+    ap.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD)
+    ap.add_argument("--compare", action="store_true", help="与 v1 对比并写 cluster_v1_vs_v2.json")
+    ap.add_argument("--rebuild-cache", action="store_true", help="忽略 embedding 缓存重新编码")
+    args = ap.parse_args()
+    if args.rebuild_cache and CACHE.exists():
+        CACHE.unlink()
+    out = run({"threshold": args.threshold, "compare": args.compare, "source": "index"})
+    print(json.dumps(out, ensure_ascii=False, indent=1))

@@ -1,0 +1,753 @@
+{
+ "schema_version": "claim_matches.v1",
+ "generated_at": "2026-11-20T07:03:03+00:00",
+ "model": "paraphrase-multilingual-MiniLM-L12-v2",
+ "threshold": 0.55,
+ "events_source": "events_v2.json",
+ "targets_initial": 35,
+ "matched": 24,
+ "unmatched": [
+  "E47",
+  "E48",
+  "E50",
+  "E51",
+  "E56",
+  "E58",
+  "E73",
+  "E74",
+  "E77",
+  "E78",
+  "E80"
+ ],
+ "matches": {
+  "E06": [
+   {
+    "matched_event_id": "E18",
+    "sim": 0.764,
+    "verdict": "source_says_true",
+    "quote": "Mediaite 原题：'That's CNN, Fake News': Trump Refuses to Answer Question From Acosta——Trump 回避 Acosta 提问并称 CNN fake news；AP：Trump slams CNN for ignoring his 'taked",
+    "url": "https://www.mediaite.com/politics/trump/thats-cnn-fake-news-trump-refuses-to-answer-question-from-jim-acosta-about-him-not-taking-coronavirus-seriously/",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E19",
+    "sim": 0.762,
+    "verdict": "source_says_true",
+    "quote": "The National Desk：Trump blasts CNN and MSNBC, calls them 'gutless losers' over Iran strike coverage；News24：'Scum': Trump unleashes on 'gutless losers' at CNN——'",
+    "url": "https://thenationaldesk.com/news/americas-news-now/trump-blasts-cnn-and-msnbc-calls-them-gutless-losers-over-iran-strike-coverage",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E08",
+    "sim": 0.725,
+    "verdict": "source_says_true",
+    "quote": "La Stampa（2026-08-19）：Nuovo scontro tra Trump e una giornalista Cnn: 'Stai zitta, sei una finta reporter'——特朗普与 CNN 记者新冲突：'闭嘴，你是假记者'；USA Today（08-18）：Video show",
+    "url": "https://www.lastampa.it/esteri/2026/08/19/video/nuovo_scontro_tra_trump_e_una_giornalista_cnn_stai_zitta_sei_una_finta_reporter-15717593/",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E13",
+    "sim": 0.72,
+    "verdict": "source_says_true",
+    "quote": "Stuff 原题：Anthropic boss shuffles into background as Trump calls CNN 'fake news'——白宫 AI 峰会上 Trump 现场骂 CNN，Anthropic CEO 在场的反应被镜头捕捉",
+    "url": "https://www.stuff.co.nz/world-news/361040391/anthropic-boss-shuffles-background-trump-calls-cnn-fake-news",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E15",
+    "sim": 0.714,
+    "verdict": "source_says_true",
+    "quote": "Mirror 原题：Trump to CNN: 'I don't talk to CNN. It's fake news' after tariff ruling（2026-02-20，最高法院裁定关税违法后的记者会上，Trump 拒答 CNN 提问并说出本句原话）——与 case 标题逐字对上",
+    "url": "https://www.themirror.com/entertainment/tv/donald-trump-snaps-cnn-reporter-1696076",
+    "source": "external_findings"
+   }
+  ],
+  "E12": [
+   {
+    "matched_event_id": "E36",
+    "sim": 0.6,
+    "verdict": "source_says_true",
+    "quote": "PBS MetroFocus 段落《REAL NEWS VS. FAKE NEWS》（Season 2018）——PBS 系多站官方页收录（KVIE/IdahoPTV 同 ID dwln88）；本 case 标题即该段落名",
+    "url": "https://www.pbssocal.org/shows/metrofocus/clip/real-news-vs-fake-news-dwln88",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E40",
+    "sim": 0.594,
+    "verdict": "source_says_true",
+    "quote": "BBC News 视频《Fake News Generator: Who starts viral misinformation?》(2020)——经教育嵌入服务 VideoLink 与日语 BBC News 学习博客（2020-05-07 条目）确认存在；BBC 官方新闻页未直接抓取",
+    "url": "https://video.link/w/Yh9Xc/",
+    "source": "external_findings"
+   }
+  ],
+  "E20": [
+   {
+    "matched_event_id": "E07",
+    "sim": 0.642,
+    "verdict": "source_says_true",
+    "quote": "BBC Bitesize 专文：Fake news and BBC My World；The Hindu：Angelina Jolie and BBC launch new show to help children identify fake news——BBC My World 系列（BBC World Servi",
+    "url": "https://www.bbc.co.uk/bitesize/articles/zk2ckmn",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E40",
+    "sim": 0.551,
+    "verdict": "source_says_true",
+    "quote": "BBC News 视频《Fake News Generator: Who starts viral misinformation?》(2020)——经教育嵌入服务 VideoLink 与日语 BBC News 学习博客（2020-05-07 条目）确认存在；BBC 官方新闻页未直接抓取",
+    "url": "https://video.link/w/Yh9Xc/",
+    "source": "external_findings"
+   }
+  ],
+  "E22": [
+   {
+    "matched_event_id": "E10",
+    "sim": 0.615,
+    "verdict": "source_says_true",
+    "quote": "The Independent：Trump goes on 'fake news media' rant at major Republican rally；C-SPAN 用户剪辑：President Trump defends 1st Amendment in West Virginia rally——集会上'欢迎 ",
+    "url": "https://indy-web-prod.brightsites.co.uk/bulletin/news/trump-media-approval-rating-nebraska-rally-b3061885.html",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E29",
+    "sim": 0.603,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：How false news can spread — Noah Tavlin（2015 年课程，writer-s-workshop 合集收录；Plex TED-Ed 剧集表 2015 A97 同名条目）",
+    "url": "https://ed.ted.com/lessons/how-false-news-can-spread-noah-tavlin",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E13",
+    "sim": 0.577,
+    "verdict": "source_says_true",
+    "quote": "Stuff 原题：Anthropic boss shuffles into background as Trump calls CNN 'fake news'——白宫 AI 峰会上 Trump 现场骂 CNN，Anthropic CEO 在场的反应被镜头捕捉",
+    "url": "https://www.stuff.co.nz/world-news/361040391/anthropic-boss-shuffles-background-trump-calls-cnn-fake-news",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E05",
+    "sim": 0.576,
+    "verdict": "source_says_true",
+    "quote": "Breitbart（2017-02-24）标题原文：Trump: 'We Are Fighting' 'Fake News' - 'They Shouldn't Be Allowed To Use' Anonymous Sources；CBC：Trump rails against media's use of ano",
+    "url": "https://www.breitbart.com/clips/2017/02/24/trump-we-are-fighting-fake-news-they-shouldnt-be-allowed-to-use-anonymous-sources-cnn-clinton-news-network/",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E39",
+    "sim": 0.574,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页：A surprisingly effective way to fight misinformation — Dave Jorgenson（Washington Post meme 主管在 TEDNext 2025 的演讲）",
+    "url": "https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation",
+    "source": "external_findings"
+   }
+  ],
+  "E28": [
+   {
+    "matched_event_id": "E26",
+    "sim": 0.654,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页（多语言版本齐全）：Sinan Aral — How we can protect truth in the age of misinformation",
+    "url": "https://www.ted.com/talks/sinan_aral_how_we_can_protect_truth_in_the_age_of_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E39",
+    "sim": 0.647,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页：A surprisingly effective way to fight misinformation — Dave Jorgenson（Washington Post meme 主管在 TEDNext 2025 的演讲）",
+    "url": "https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E35",
+    "sim": 0.613,
+    "verdict": "source_says_true",
+    "quote": "Al Jazeera 官方剧集页：The Stream — Why does misinformation spread faster than truth?（2025-09-30）——case 即该期节目",
+    "url": "https://www.aljazeera.com/video/the-stream/2025/9/30/why-does-misinformation-spread-faster-than-truth",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E69",
+    "sim": 0.594,
+    "verdict": "source_mentions",
+    "quote": "包括断章取义、歪曲解读企业家过往言论，呈现与事实不符的搜索关键词联想、搜索落地页结果，已经权威辟谣、澄清的不实信息，与企业、企业家在超大平台上的官方账号发布的公开声明不符信息。",
+    "url": "piyao",
+    "source": "verify_packet"
+   },
+   {
+    "matched_event_id": "E04",
+    "sim": 0.563,
+    "verdict": "source_says_true",
+    "quote": "case 字幕含 'I don't talk to CNN. It's fake news'/'CNN's a very corrupt organization'/'corrupt or incompetent'——与 2026-02-20 关税裁定记者会报道用词一致（见 E15 的 Mirror 原题报道）；202",
+    "url": "https://www.themirror.com/entertainment/tv/donald-trump-snaps-cnn-reporter-1696076",
+    "source": "external_findings"
+   }
+  ],
+  "E32": [
+   {
+    "matched_event_id": "E35",
+    "sim": 0.673,
+    "verdict": "source_says_true",
+    "quote": "Al Jazeera 官方剧集页：The Stream — Why does misinformation spread faster than truth?（2025-09-30）——case 即该期节目",
+    "url": "https://www.aljazeera.com/video/the-stream/2025/9/30/why-does-misinformation-spread-faster-than-truth",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E39",
+    "sim": 0.654,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页：A surprisingly effective way to fight misinformation — Dave Jorgenson（Washington Post meme 主管在 TEDNext 2025 的演讲）",
+    "url": "https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E26",
+    "sim": 0.651,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页（多语言版本齐全）：Sinan Aral — How we can protect truth in the age of misinformation",
+    "url": "https://www.ted.com/talks/sinan_aral_how_we_can_protect_truth_in_the_age_of_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E25",
+    "sim": 0.639,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：Why people fall for misinformation — Joseph Isaac（含配套练习、多语言版本与 media-literacy 课程合集收录）",
+    "url": "https://ed.ted.com/lessons/why-people-fall-for-misinformation-joseph-isaac",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E69",
+    "sim": 0.579,
+    "verdict": "source_mentions",
+    "quote": "包括断章取义、歪曲解读企业家过往言论，呈现与事实不符的搜索关键词联想、搜索落地页结果，已经权威辟谣、澄清的不实信息，与企业、企业家在超大平台上的官方账号发布的公开声明不符信息。",
+    "url": "piyao",
+    "source": "verify_packet"
+   }
+  ],
+  "E33": [
+   {
+    "matched_event_id": "E35",
+    "sim": 0.717,
+    "verdict": "source_says_true",
+    "quote": "Al Jazeera 官方剧集页：The Stream — Why does misinformation spread faster than truth?（2025-09-30）——case 即该期节目",
+    "url": "https://www.aljazeera.com/video/the-stream/2025/9/30/why-does-misinformation-spread-faster-than-truth",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E26",
+    "sim": 0.677,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页（多语言版本齐全）：Sinan Aral — How we can protect truth in the age of misinformation",
+    "url": "https://www.ted.com/talks/sinan_aral_how_we_can_protect_truth_in_the_age_of_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E39",
+    "sim": 0.639,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页：A surprisingly effective way to fight misinformation — Dave Jorgenson（Washington Post meme 主管在 TEDNext 2025 的演讲）",
+    "url": "https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E29",
+    "sim": 0.58,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：How false news can spread — Noah Tavlin（2015 年课程，writer-s-workshop 合集收录；Plex TED-Ed 剧集表 2015 A97 同名条目）",
+    "url": "https://ed.ted.com/lessons/how-false-news-can-spread-noah-tavlin",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E70",
+    "sim": 0.575,
+    "verdict": "source_mentions",
+    "quote": "AI制作发布虚假不实信息。",
+    "url": "piyao",
+    "source": "verify_packet"
+   }
+  ],
+  "E37": [
+   {
+    "matched_event_id": "E69",
+    "sim": 0.666,
+    "verdict": "source_mentions",
+    "quote": "包括断章取义、歪曲解读企业家过往言论，呈现与事实不符的搜索关键词联想、搜索落地页结果，已经权威辟谣、澄清的不实信息，与企业、企业家在超大平台上的官方账号发布的公开声明不符信息。",
+    "url": "piyao",
+    "source": "verify_packet"
+   },
+   {
+    "matched_event_id": "E26",
+    "sim": 0.662,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页（多语言版本齐全）：Sinan Aral — How we can protect truth in the age of misinformation",
+    "url": "https://www.ted.com/talks/sinan_aral_how_we_can_protect_truth_in_the_age_of_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E35",
+    "sim": 0.658,
+    "verdict": "source_says_true",
+    "quote": "Al Jazeera 官方剧集页：The Stream — Why does misinformation spread faster than truth?（2025-09-30）——case 即该期节目",
+    "url": "https://www.aljazeera.com/video/the-stream/2025/9/30/why-does-misinformation-spread-faster-than-truth",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E39",
+    "sim": 0.639,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页：A surprisingly effective way to fight misinformation — Dave Jorgenson（Washington Post meme 主管在 TEDNext 2025 的演讲）",
+    "url": "https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E67",
+    "sim": 0.619,
+    "verdict": "source_mentions",
+    "quote": "二是使用与专业领域相关的模糊关键词，绕过平台对专业资质认证的要求，变相发布相关专业领域内容，传播不实信息误导公众。",
+    "url": "piyao",
+    "source": "verify_packet"
+   }
+  ],
+  "E38": [
+   {
+    "matched_event_id": "E35",
+    "sim": 0.737,
+    "verdict": "source_says_true",
+    "quote": "Al Jazeera 官方剧集页：The Stream — Why does misinformation spread faster than truth?（2025-09-30）——case 即该期节目",
+    "url": "https://www.aljazeera.com/video/the-stream/2025/9/30/why-does-misinformation-spread-faster-than-truth",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E26",
+    "sim": 0.675,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页（多语言版本齐全）：Sinan Aral — How we can protect truth in the age of misinformation",
+    "url": "https://www.ted.com/talks/sinan_aral_how_we_can_protect_truth_in_the_age_of_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E39",
+    "sim": 0.622,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页：A surprisingly effective way to fight misinformation — Dave Jorgenson（Washington Post meme 主管在 TEDNext 2025 的演讲）",
+    "url": "https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E29",
+    "sim": 0.585,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：How false news can spread — Noah Tavlin（2015 年课程，writer-s-workshop 合集收录；Plex TED-Ed 剧集表 2015 A97 同名条目）",
+    "url": "https://ed.ted.com/lessons/how-false-news-can-spread-noah-tavlin",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E25",
+    "sim": 0.571,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：Why people fall for misinformation — Joseph Isaac（含配套练习、多语言版本与 media-literacy 课程合集收录）",
+    "url": "https://ed.ted.com/lessons/why-people-fall-for-misinformation-joseph-isaac",
+    "source": "external_findings"
+   }
+  ],
+  "E43": [
+   {
+    "matched_event_id": "E35",
+    "sim": 0.641,
+    "verdict": "source_says_true",
+    "quote": "Al Jazeera 官方剧集页：The Stream — Why does misinformation spread faster than truth?（2025-09-30）——case 即该期节目",
+    "url": "https://www.aljazeera.com/video/the-stream/2025/9/30/why-does-misinformation-spread-faster-than-truth",
+    "source": "external_findings"
+   }
+  ],
+  "E45": [
+   {
+    "matched_event_id": "E35",
+    "sim": 0.721,
+    "verdict": "source_says_true",
+    "quote": "Al Jazeera 官方剧集页：The Stream — Why does misinformation spread faster than truth?（2025-09-30）——case 即该期节目",
+    "url": "https://www.aljazeera.com/video/the-stream/2025/9/30/why-does-misinformation-spread-faster-than-truth",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E26",
+    "sim": 0.689,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页（多语言版本齐全）：Sinan Aral — How we can protect truth in the age of misinformation",
+    "url": "https://www.ted.com/talks/sinan_aral_how_we_can_protect_truth_in_the_age_of_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E39",
+    "sim": 0.636,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页：A surprisingly effective way to fight misinformation — Dave Jorgenson（Washington Post meme 主管在 TEDNext 2025 的演讲）",
+    "url": "https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E70",
+    "sim": 0.588,
+    "verdict": "source_mentions",
+    "quote": "AI制作发布虚假不实信息。",
+    "url": "piyao",
+    "source": "verify_packet"
+   },
+   {
+    "matched_event_id": "E29",
+    "sim": 0.585,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：How false news can spread — Noah Tavlin（2015 年课程，writer-s-workshop 合集收录；Plex TED-Ed 剧集表 2015 A97 同名条目）",
+    "url": "https://ed.ted.com/lessons/how-false-news-can-spread-noah-tavlin",
+    "source": "external_findings"
+   }
+  ],
+  "E46": [
+   {
+    "matched_event_id": "E35",
+    "sim": 0.643,
+    "verdict": "source_says_true",
+    "quote": "Al Jazeera 官方剧集页：The Stream — Why does misinformation spread faster than truth?（2025-09-30）——case 即该期节目",
+    "url": "https://www.aljazeera.com/video/the-stream/2025/9/30/why-does-misinformation-spread-faster-than-truth",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E26",
+    "sim": 0.614,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页（多语言版本齐全）：Sinan Aral — How we can protect truth in the age of misinformation",
+    "url": "https://www.ted.com/talks/sinan_aral_how_we_can_protect_truth_in_the_age_of_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E39",
+    "sim": 0.581,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页：A surprisingly effective way to fight misinformation — Dave Jorgenson（Washington Post meme 主管在 TEDNext 2025 的演讲）",
+    "url": "https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E67",
+    "sim": 0.578,
+    "verdict": "source_mentions",
+    "quote": "二是使用与专业领域相关的模糊关键词，绕过平台对专业资质认证的要求，变相发布相关专业领域内容，传播不实信息误导公众。",
+    "url": "piyao",
+    "source": "verify_packet"
+   },
+   {
+    "matched_event_id": "E04",
+    "sim": 0.571,
+    "verdict": "source_says_true",
+    "quote": "case 字幕含 'I don't talk to CNN. It's fake news'/'CNN's a very corrupt organization'/'corrupt or incompetent'——与 2026-02-20 关税裁定记者会报道用词一致（见 E15 的 Mirror 原题报道）；202",
+    "url": "https://www.themirror.com/entertainment/tv/donald-trump-snaps-cnn-reporter-1696076",
+    "source": "external_findings"
+   }
+  ],
+  "E49": [
+   {
+    "matched_event_id": "E52",
+    "sim": 0.6,
+    "verdict": "source_says_true",
+    "quote": "Google 官方博客：We're making it easier to identify AI-generated content globally——SynthID Detector 公开上线（推文即报道此事的法语科技博客）",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/synth-id-ai-content/",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E11",
+    "sim": 0.594,
+    "verdict": "source_says_true",
+    "quote": "Futurism：John Oliver Aghast at How AI Slop Is Devouring the Web——Last Week Tonight 的 AI slop 专题获多家科技媒体报道；IMDb 亦有 2026 年 AI Chatbots 剧集条目",
+    "url": "https://futurism.com/john-oliver-ai-slop",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E70",
+    "sim": 0.557,
+    "verdict": "source_mentions",
+    "quote": "AI制作发布虚假不实信息。",
+    "url": "piyao",
+    "source": "verify_packet"
+   }
+  ],
+  "E57": [
+   {
+    "matched_event_id": "E36",
+    "sim": 0.633,
+    "verdict": "source_says_true",
+    "quote": "PBS MetroFocus 段落《REAL NEWS VS. FAKE NEWS》（Season 2018）——PBS 系多站官方页收录（KVIE/IdahoPTV 同 ID dwln88）；本 case 标题即该段落名",
+    "url": "https://www.pbssocal.org/shows/metrofocus/clip/real-news-vs-fake-news-dwln88",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E04",
+    "sim": 0.596,
+    "verdict": "source_says_true",
+    "quote": "case 字幕含 'I don't talk to CNN. It's fake news'/'CNN's a very corrupt organization'/'corrupt or incompetent'——与 2026-02-20 关税裁定记者会报道用词一致（见 E15 的 Mirror 原题报道）；202",
+    "url": "https://www.themirror.com/entertainment/tv/donald-trump-snaps-cnn-reporter-1696076",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E29",
+    "sim": 0.565,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：How false news can spread — Noah Tavlin（2015 年课程，writer-s-workshop 合集收录；Plex TED-Ed 剧集表 2015 A97 同名条目）",
+    "url": "https://ed.ted.com/lessons/how-false-news-can-spread-noah-tavlin",
+    "source": "external_findings"
+   }
+  ],
+  "E59": [
+   {
+    "matched_event_id": "E18",
+    "sim": 0.635,
+    "verdict": "source_says_true",
+    "quote": "Mediaite 原题：'That's CNN, Fake News': Trump Refuses to Answer Question From Acosta——Trump 回避 Acosta 提问并称 CNN fake news；AP：Trump slams CNN for ignoring his 'taked",
+    "url": "https://www.mediaite.com/politics/trump/thats-cnn-fake-news-trump-refuses-to-answer-question-from-jim-acosta-about-him-not-taking-coronavirus-seriously/",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E08",
+    "sim": 0.633,
+    "verdict": "source_says_true",
+    "quote": "La Stampa（2026-08-19）：Nuovo scontro tra Trump e una giornalista Cnn: 'Stai zitta, sei una finta reporter'——特朗普与 CNN 记者新冲突：'闭嘴，你是假记者'；USA Today（08-18）：Video show",
+    "url": "https://www.lastampa.it/esteri/2026/08/19/video/nuovo_scontro_tra_trump_e_una_giornalista_cnn_stai_zitta_sei_una_finta_reporter-15717593/",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E10",
+    "sim": 0.624,
+    "verdict": "source_says_true",
+    "quote": "The Independent：Trump goes on 'fake news media' rant at major Republican rally；C-SPAN 用户剪辑：President Trump defends 1st Amendment in West Virginia rally——集会上'欢迎 ",
+    "url": "https://indy-web-prod.brightsites.co.uk/bulletin/news/trump-media-approval-rating-nebraska-rally-b3061885.html",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E13",
+    "sim": 0.604,
+    "verdict": "source_says_true",
+    "quote": "Stuff 原题：Anthropic boss shuffles into background as Trump calls CNN 'fake news'——白宫 AI 峰会上 Trump 现场骂 CNN，Anthropic CEO 在场的反应被镜头捕捉",
+    "url": "https://www.stuff.co.nz/world-news/361040391/anthropic-boss-shuffles-background-trump-calls-cnn-fake-news",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E05",
+    "sim": 0.577,
+    "verdict": "source_says_true",
+    "quote": "Breitbart（2017-02-24）标题原文：Trump: 'We Are Fighting' 'Fake News' - 'They Shouldn't Be Allowed To Use' Anonymous Sources；CBC：Trump rails against media's use of ano",
+    "url": "https://www.breitbart.com/clips/2017/02/24/trump-we-are-fighting-fake-news-they-shouldnt-be-allowed-to-use-anonymous-sources-cnn-clinton-news-network/",
+    "source": "external_findings"
+   }
+  ],
+  "E60": [
+   {
+    "matched_event_id": "E36",
+    "sim": 0.633,
+    "verdict": "source_says_true",
+    "quote": "PBS MetroFocus 段落《REAL NEWS VS. FAKE NEWS》（Season 2018）——PBS 系多站官方页收录（KVIE/IdahoPTV 同 ID dwln88）；本 case 标题即该段落名",
+    "url": "https://www.pbssocal.org/shows/metrofocus/clip/real-news-vs-fake-news-dwln88",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E91",
+    "sim": 0.607,
+    "verdict": "source_says_false",
+    "quote": "Rating: Fake",
+    "url": "snopes",
+    "source": "verify_packet"
+   },
+   {
+    "matched_event_id": "E29",
+    "sim": 0.553,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：How false news can spread — Noah Tavlin（2015 年课程，writer-s-workshop 合集收录；Plex TED-Ed 剧集表 2015 A97 同名条目）",
+    "url": "https://ed.ted.com/lessons/how-false-news-can-spread-noah-tavlin",
+    "source": "external_findings"
+   }
+  ],
+  "E61": [
+   {
+    "matched_event_id": "E36",
+    "sim": 0.567,
+    "verdict": "source_says_true",
+    "quote": "PBS MetroFocus 段落《REAL NEWS VS. FAKE NEWS》（Season 2018）——PBS 系多站官方页收录（KVIE/IdahoPTV 同 ID dwln88）；本 case 标题即该段落名",
+    "url": "https://www.pbssocal.org/shows/metrofocus/clip/real-news-vs-fake-news-dwln88",
+    "source": "external_findings"
+   }
+  ],
+  "E62": [
+   {
+    "matched_event_id": "E04",
+    "sim": 0.559,
+    "verdict": "source_says_true",
+    "quote": "case 字幕含 'I don't talk to CNN. It's fake news'/'CNN's a very corrupt organization'/'corrupt or incompetent'——与 2026-02-20 关税裁定记者会报道用词一致（见 E15 的 Mirror 原题报道）；202",
+    "url": "https://www.themirror.com/entertainment/tv/donald-trump-snaps-cnn-reporter-1696076",
+    "source": "external_findings"
+   }
+  ],
+  "E63": [
+   {
+    "matched_event_id": "E71",
+    "sim": 0.616,
+    "verdict": "source_mentions",
+    "quote": "网传视频系信息发布者为吸粉引流恶意编造的网络谣言 。",
+    "url": "piyao",
+    "source": "verify_packet"
+   },
+   {
+    "matched_event_id": "E68",
+    "sim": 0.606,
+    "verdict": "source_mentions",
+    "quote": "小红书账号“观澜FinResearch”、今日头条账号“康子”、微博账号“天天观C”、搜狐号“天下G查”发布涉企负面不实信息。",
+    "url": "piyao",
+    "source": "verify_packet"
+   }
+  ],
+  "E64": [
+   {
+    "matched_event_id": "E36",
+    "sim": 0.633,
+    "verdict": "source_says_true",
+    "quote": "PBS MetroFocus 段落《REAL NEWS VS. FAKE NEWS》（Season 2018）——PBS 系多站官方页收录（KVIE/IdahoPTV 同 ID dwln88）；本 case 标题即该段落名",
+    "url": "https://www.pbssocal.org/shows/metrofocus/clip/real-news-vs-fake-news-dwln88",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E15",
+    "sim": 0.612,
+    "verdict": "source_says_true",
+    "quote": "Mirror 原题：Trump to CNN: 'I don't talk to CNN. It's fake news' after tariff ruling（2026-02-20，最高法院裁定关税违法后的记者会上，Trump 拒答 CNN 提问并说出本句原话）——与 case 标题逐字对上",
+    "url": "https://www.themirror.com/entertainment/tv/donald-trump-snaps-cnn-reporter-1696076",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E04",
+    "sim": 0.603,
+    "verdict": "source_says_true",
+    "quote": "case 字幕含 'I don't talk to CNN. It's fake news'/'CNN's a very corrupt organization'/'corrupt or incompetent'——与 2026-02-20 关税裁定记者会报道用词一致（见 E15 的 Mirror 原题报道）；202",
+    "url": "https://www.themirror.com/entertainment/tv/donald-trump-snaps-cnn-reporter-1696076",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E29",
+    "sim": 0.573,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：How false news can spread — Noah Tavlin（2015 年课程，writer-s-workshop 合集收录；Plex TED-Ed 剧集表 2015 A97 同名条目）",
+    "url": "https://ed.ted.com/lessons/how-false-news-can-spread-noah-tavlin",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E91",
+    "sim": 0.569,
+    "verdict": "source_says_false",
+    "quote": "Rating: Fake",
+    "url": "snopes",
+    "source": "verify_packet"
+   }
+  ],
+  "E65": [
+   {
+    "matched_event_id": "E71",
+    "sim": 0.566,
+    "verdict": "source_mentions",
+    "quote": "网传视频系信息发布者为吸粉引流恶意编造的网络谣言 。",
+    "url": "piyao",
+    "source": "verify_packet"
+   },
+   {
+    "matched_event_id": "E36",
+    "sim": 0.562,
+    "verdict": "source_says_true",
+    "quote": "PBS MetroFocus 段落《REAL NEWS VS. FAKE NEWS》（Season 2018）——PBS 系多站官方页收录（KVIE/IdahoPTV 同 ID dwln88）；本 case 标题即该段落名",
+    "url": "https://www.pbssocal.org/shows/metrofocus/clip/real-news-vs-fake-news-dwln88",
+    "source": "external_findings"
+   }
+  ],
+  "E66": [
+   {
+    "matched_event_id": "E71",
+    "sim": 0.641,
+    "verdict": "source_mentions",
+    "quote": "网传视频系信息发布者为吸粉引流恶意编造的网络谣言 。",
+    "url": "piyao",
+    "source": "verify_packet"
+   },
+   {
+    "matched_event_id": "E05",
+    "sim": 0.587,
+    "verdict": "source_says_true",
+    "quote": "Breitbart（2017-02-24）标题原文：Trump: 'We Are Fighting' 'Fake News' - 'They Shouldn't Be Allowed To Use' Anonymous Sources；CBC：Trump rails against media's use of ano",
+    "url": "https://www.breitbart.com/clips/2017/02/24/trump-we-are-fighting-fake-news-they-shouldnt-be-allowed-to-use-anonymous-sources-cnn-clinton-news-network/",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E18",
+    "sim": 0.568,
+    "verdict": "source_says_true",
+    "quote": "Mediaite 原题：'That's CNN, Fake News': Trump Refuses to Answer Question From Acosta——Trump 回避 Acosta 提问并称 CNN fake news；AP：Trump slams CNN for ignoring his 'taked",
+    "url": "https://www.mediaite.com/politics/trump/thats-cnn-fake-news-trump-refuses-to-answer-question-from-jim-acosta-about-him-not-taking-coronavirus-seriously/",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E69",
+    "sim": 0.556,
+    "verdict": "source_mentions",
+    "quote": "包括断章取义、歪曲解读企业家过往言论，呈现与事实不符的搜索关键词联想、搜索落地页结果，已经权威辟谣、澄清的不实信息，与企业、企业家在超大平台上的官方账号发布的公开声明不符信息。",
+    "url": "piyao",
+    "source": "verify_packet"
+   }
+  ],
+  "E75": [
+   {
+    "matched_event_id": "E71",
+    "sim": 0.624,
+    "verdict": "source_mentions",
+    "quote": "网传视频系信息发布者为吸粉引流恶意编造的网络谣言 。",
+    "url": "piyao",
+    "source": "verify_packet"
+   },
+   {
+    "matched_event_id": "E26",
+    "sim": 0.578,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页（多语言版本齐全）：Sinan Aral — How we can protect truth in the age of misinformation",
+    "url": "https://www.ted.com/talks/sinan_aral_how_we_can_protect_truth_in_the_age_of_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E39",
+    "sim": 0.57,
+    "verdict": "source_says_true",
+    "quote": "TED 官方讲者页：A surprisingly effective way to fight misinformation — Dave Jorgenson（Washington Post meme 主管在 TEDNext 2025 的演讲）",
+    "url": "https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E29",
+    "sim": 0.557,
+    "verdict": "source_says_true",
+    "quote": "TED-Ed 官方课程页：How false news can spread — Noah Tavlin（2015 年课程，writer-s-workshop 合集收录；Plex TED-Ed 剧集表 2015 A97 同名条目）",
+    "url": "https://ed.ted.com/lessons/how-false-news-can-spread-noah-tavlin",
+    "source": "external_findings"
+   }
+  ],
+  "E76": [
+   {
+    "matched_event_id": "E11",
+    "sim": 0.668,
+    "verdict": "source_says_true",
+    "quote": "Futurism：John Oliver Aghast at How AI Slop Is Devouring the Web——Last Week Tonight 的 AI slop 专题获多家科技媒体报道；IMDb 亦有 2026 年 AI Chatbots 剧集条目",
+    "url": "https://futurism.com/john-oliver-ai-slop",
+    "source": "external_findings"
+   },
+   {
+    "matched_event_id": "E52",
+    "sim": 0.553,
+    "verdict": "source_says_true",
+    "quote": "Google 官方博客：We're making it easier to identify AI-generated content globally——SynthID Detector 公开上线（推文即报道此事的法语科技博客）",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/synth-id-ai-content/",
+    "source": "external_findings"
+   }
+  ]
+ },
+ "note": "自动匹配仅为来源建议（sim 为 MiniLM 余弦），人工复核后回填 external_findings"
+}

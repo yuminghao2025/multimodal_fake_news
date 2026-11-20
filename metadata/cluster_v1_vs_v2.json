@@ -1,0 +1,12 @@
+{
+ "threshold": 0.85,
+ "v2_events": 96,
+ "v1_events": 96,
+ "merged_pairs_v1": 2,
+ "merged_pairs_v2": 2,
+ "new_pairs_in_v2": 0,
+ "lost_pairs_in_v2": 0,
+ "cross_language_new": [],
+ "new_pair_examples": [],
+ "lost_pair_examples": []
+}
