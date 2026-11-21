@@ -80,6 +80,31 @@ def _encode(model, texts: list[str]) -> np.ndarray:
                         normalize_embeddings=True)
 
 
+EMBED_ENDPOINT = os.environ.get("ZT_EMBED_ENDPOINT", "").rstrip("/")
+# 远程编码（GPU 服务器）：ZT_EMBED_ENDPOINT=http://<host>:8765 时，
+# 编码走 /embed 接口，本地不再加载模型——采集层 870+ 条全量归簇的算力出口
+
+
+def _encode_texts(texts: list[str]) -> np.ndarray:
+    if not texts:
+        return np.zeros((0, 384), dtype=np.float32)
+    if EMBED_ENDPOINT:
+        import urllib.request
+        out: list[list[float]] = []
+        B = 64
+        for s in range(0, len(texts), B):
+            body = json.dumps({"texts": texts[s:s + B]}).encode("utf-8")
+            req = urllib.request.Request(EMBED_ENDPOINT + "/embed", data=body,
+                                         headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                out.extend(json.loads(resp.read().decode("utf-8"))["vectors"])
+        arr = np.asarray(out, dtype=np.float32)
+        norm = np.linalg.norm(arr, axis=1, keepdims=True)
+        norm[norm == 0] = 1.0
+        return arr / norm
+    return _encode(_model(), texts)
+
+
 def embed_case_texts(cases: list[dict]) -> tuple[np.ndarray, np.ndarray, dict]:
     """返回 (title_vecs, fused_vecs, cache_info)。标题/正文分别编码后融合；带落盘缓存。"""
     titles = [(c.get("title") or c.get("id") or "").strip() for c in cases]
@@ -95,15 +120,14 @@ def embed_case_texts(cases: list[dict]) -> tuple[np.ndarray, np.ndarray, dict]:
                 body = body[:BODY_CHARS]
         bodies.append(body or titles[len(bodies)])
 
-    sig = f"{MODEL_NAME}|{len(cases)}|" + "|".join(t[:40] for t in titles)
+    sig = f"{MODEL_NAME}|{EMBED_ENDPOINT or 'local'}|{len(cases)}|" + "|".join(t[:40] for t in titles)
     if CACHE.exists():
         blob = np.load(CACHE, allow_pickle=False)
         if str(blob["sig"]) == sig:
             return blob["titles"], blob["fused"], {"cache": "hit"}
 
-    model = _model()
-    tv = _encode(model, titles)
-    bv = _encode(model, bodies)
+    tv = _encode_texts(titles)
+    bv = _encode_texts(bodies)
     fused = BLEND_TITLE * tv + BLEND_BODY * bv
     norm = np.linalg.norm(fused, axis=1, keepdims=True)
     norm[norm == 0] = 1.0
