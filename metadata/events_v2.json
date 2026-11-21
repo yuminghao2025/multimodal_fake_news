@@ -1,6 +1,6 @@
 {
  "schema_version": "events.v2",
- "generated_at": "2026-11-21T06:04:49+00:00",
+ "generated_at": "2026-11-21T06:11:26+00:00",
  "source": "index",
  "model": "paraphrase-multilingual-MiniLM-L12-v2",
  "combine": "max(semantic, lexical) + 长度门槛 + 系列守卫(v3 归一)",
@@ -85,7 +85,7 @@
     "Hook Global"
    ],
    "time_gap_days": 44,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.333,
    "series_suspect": false
   },
   {
@@ -109,7 +109,7 @@
     "NovoKnow"
    ],
    "time_gap_days": 744,
-   "entity_jaccard": 0.143,
+   "entity_jaccard": 0.2,
    "series_suspect": false
   },
   {
@@ -133,7 +133,7 @@
     "India Today"
    ],
    "time_gap_days": 177,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.333,
    "series_suspect": false
   },
   {
@@ -157,7 +157,7 @@
     "Fox News"
    ],
    "time_gap_days": 533,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.333,
    "series_suspect": false
   },
   {
@@ -181,7 +181,7 @@
     "India Today"
    ],
    "time_gap_days": 220,
-   "entity_jaccard": 0.167,
+   "entity_jaccard": 0.2,
    "series_suspect": false
   },
   {
@@ -205,7 +205,7 @@
     "Hook Global"
    ],
    "time_gap_days": 1,
-   "entity_jaccard": 0.143,
+   "entity_jaccard": 0.222,
    "series_suspect": false
   },
   {
@@ -229,7 +229,7 @@
     "Fox News"
    ],
    "time_gap_days": 533,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.4,
    "series_suspect": false
   },
   {
@@ -253,7 +253,7 @@
     "Behind the News"
    ],
    "time_gap_days": 339,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.2,
    "series_suspect": false
   },
   {
@@ -349,7 +349,7 @@
     "KMPH FOX26 NEWS"
    ],
    "time_gap_days": 462,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.4,
    "series_suspect": false
   },
   {
@@ -373,7 +373,7 @@
     "KMPH FOX26 NEWS"
    ],
    "time_gap_days": 419,
-   "entity_jaccard": 0.5,
+   "entity_jaccard": 1.0,
    "series_suspect": false
   },
   {
@@ -397,7 +397,7 @@
     "TEDx Talks"
    ],
    "time_gap_days": 2043,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.083,
    "series_suspect": false
   },
   {
@@ -421,7 +421,7 @@
     "LiveNOW from FOX"
    ],
    "time_gap_days": 2779,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.273,
    "series_suspect": false
   },
   {
@@ -445,7 +445,7 @@
     "Al Jazeera English"
    ],
    "time_gap_days": 1750,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.143,
    "series_suspect": false
   },
   {
@@ -469,7 +469,7 @@
     "India Today"
    ],
    "time_gap_days": 220,
-   "entity_jaccard": 0.167,
+   "entity_jaccard": 0.222,
    "series_suspect": false
   },
   {
@@ -493,7 +493,7 @@
     "KMPH FOX26 NEWS"
    ],
    "time_gap_days": 462,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.333,
    "series_suspect": false
   },
   {
@@ -517,7 +517,7 @@
     "LiveNOW from FOX"
    ],
    "time_gap_days": 3000,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.167,
    "series_suspect": false
   },
   {
@@ -541,7 +541,7 @@
     "Fox News"
    ],
    "time_gap_days": 312,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.333,
    "series_suspect": false
   },
   {
@@ -565,7 +565,7 @@
     "TED"
    ],
    "time_gap_days": 1910,
-   "entity_jaccard": 0.0,
+   "entity_jaccard": 0.083,
    "series_suspect": false
   }
  ],

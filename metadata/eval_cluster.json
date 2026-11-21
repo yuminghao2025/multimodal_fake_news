@@ -1,0 +1,677 @@
+{
+ "schema_version": "eval_cluster.v1",
+ "standard": "silver（弱标：v1 人工审计合并对 + 同 evidence_url 分组 + v3 硬证据负对；金标=复核表决定列到位后重跑同工具即升级）",
+ "counts": {
+  "positives": 4,
+  "negatives": 0,
+  "pos_by": {
+   "same_url": 2,
+   "v1_merge": 2
+  },
+  "neg_by": {}
+ },
+ "rule": "pred = (hybrid >= t) or (lexical >= 0.45)；guarded=series 对不计 pred",
+ "curve": [
+  {
+   "t": 0.6,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.61,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.62,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.63,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.64,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.65,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.66,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.67,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.68,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.69,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.7,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.71,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.72,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.73,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.74,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.75,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.76,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.77,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.78,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.79,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.8,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.81,
+   "raw": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   },
+   "guarded": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857
+   }
+  },
+  {
+   "t": 0.82,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.83,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.84,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.85,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.86,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.87,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.88,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.89,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.9,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.91,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  },
+  {
+   "t": 0.92,
+   "raw": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   },
+   "guarded": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "f1": 0.667
+   }
+  }
+ ],
+ "recommended": {
+  "threshold": 0.6,
+  "raw": {
+   "tp": 3,
+   "fp": 0,
+   "fn": 1,
+   "precision": 1.0,
+   "recall": 0.75,
+   "f1": 0.857
+  }
+ },
+ "silver_positives": [
+  {
+   "a": "us_politics__anthropic_ceo_reacts_trump_cnn_attack",
+   "b": "us_politics__trump_interrupts_media_cnn_shorts",
+   "provenance": "same_url"
+  },
+  {
+   "a": "us_politics__trump_refuses_cnn_question",
+   "b": "us_politics__white_house_fake_news_cnn_clip",
+   "provenance": "same_url"
+  },
+  {
+   "a": "us_politics__trump_silences_cnn_reporter_shorts",
+   "b": "us_politics__trump_spars_cnn_anchor",
+   "provenance": "v1_merge"
+  },
+  {
+   "a": "x_deepfake__tweet_2066189735",
+   "b": "x_deepfake__tweet_7975021817",
+   "provenance": "v1_merge"
+  }
+ ],
+ "silver_negatives": []
+}

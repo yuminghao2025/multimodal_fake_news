@@ -129,17 +129,17 @@ def semantic_matrix(fused: np.ndarray) -> dict[tuple[int, int], float]:
 RE_HASHTAG = re.compile(r"#.*$")
 RE_DIGITS = re.compile(r"\d+")
 RE_TWEET_ID = re.compile(r"tweet_(\d+)")
-RE_ENT = re.compile(r"\b[A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*")
+RE_CAPWORD = re.compile(r"\b[A-Z][a-zA-Z]{2,}\b")
+_EN_GENERIC = {"fake", "news", "video", "watch", "full", "report", "breaking",
+               "live", "media", "press", "exclusive", "update", "shorts", "today",
+               "watching", "interview", "speech", "conference", "moment", "worst"}
 
 
 def entity_set(title: str) -> set[str]:
-    """标题大写词组集合（实体近似）；词内含通用词的丢弃。"""
-    out = set()
-    for m in RE_ENT.findall(title or ""):
-        if len(m) < 4:
-            continue
-        out.add(m)
-    return out
+    """词级实体近似：独立大写词（≥4 字母，滤通用词）。词级而非大写词组——
+    词组整体比较会让 'Trump Interrupts Media' 与 'Trump' 的 Jaccard=0（R5 教训）。"""
+    return {m for m in RE_CAPWORD.findall(title or "")
+            if m.lower() not in _EN_GENERIC}
 
 
 def load_meta_index() -> dict[str, dict]:
