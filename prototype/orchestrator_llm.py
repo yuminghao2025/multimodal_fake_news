@@ -147,11 +147,15 @@ def load_state(root: Path) -> dict:
     vp_path = root / "metadata" / "verify_packets.json"
     if vp_path.is_file():
         vp = json.loads(vp_path.read_text(encoding="utf-8"))
+        packets = vp.get("packets", vp if isinstance(vp, list) else [])
+        by_status: dict = {}
+        for p in packets:
+            st = p.get("status", "?")
+            by_status[st] = by_status.get(st, 0) + 1
         state["packets"] = {
             "count": vp.get("count"),
             "source_grounded": vp.get("source_grounded"),
-            "by_severity": vp.get("by_severity"),
-            "clean": vp.get("clean"),
+            "by_status": by_status,
         }
     hs_path = root / "metadata" / "harvest_state.json"
     if hs_path.is_file():
@@ -160,6 +164,34 @@ def load_state(root: Path) -> dict:
     if runs_path.is_file():
         lines = runs_path.read_text(encoding="utf-8").strip().splitlines()
         state["recent_runs"] = [json.loads(x) for x in lines[-3:] if x.strip()]
+
+    # v2/v3 升级后的新产出状态面（让 LLM 主控"看得见"归簇/匹配/检索式/同族）
+    def _j(name: str):
+        p = root / "metadata" / name
+        return json.loads(p.read_text(encoding="utf-8")) if p.is_file() else None
+
+    ev = _j("events.json")
+    if ev:
+        state["clusters"] = {"count": ev.get("count"), "singletons": ev.get("singletons"),
+                             "reduction": ev.get("reduction")}
+    ev2 = _j("events_v2.json")
+    if ev2:
+        state["clusters_v2"] = {"count": ev2.get("count"),
+                                "candidates_pending": len(ev2.get("candidates", [])),
+                                "series_blocked": (ev2.get("guards") or {}).get("series_suspect_blocked", 0)}
+    cm = _j("claim_matches.json")
+    if cm:
+        state["claim_matches"] = {"targets": cm.get("targets"), "matched": cm.get("matched"),
+                                  "unmatched": len(cm.get("unmatched", []))}
+    sq = _j("suggested_queries.json")
+    if sq:
+        state["suggested_queries"] = {"targets": sq.get("targets"),
+                                      "queries": sq.get("queries") and len(
+                                          [q for v in sq["queries"].values() for q in v]) or 0}
+    ef = _j("evidence_families.json")
+    if ef:
+        state["evidence_families"] = {"families_ge2": ef.get("families_ge2"),
+                                      "missing_pairs_total": ef.get("missing_pairs_total")}
     return state
 
 
@@ -215,7 +247,29 @@ def call_model(prompt: str) -> dict:
 
 
 def mock_decision(state: dict) -> dict:
-    """内置 mock：按状态给一个合法决策，用于演示与自测。"""
+    """内置 mock：按状态给一个合法决策，用于演示与自测。
+
+    优先级链（每轮只提一个动作，模拟自治节奏）：
+      新产出缺失 → 先补产（match_claims / suggest_queries / 证据同族）
+      → 核查包未齐 → build_packets
+      → 全齐 → stop
+    """
+    cm = state.get("claim_matches")
+    if not cm:
+        return {"actions": [{"agent": "verify", "action": "match_claims", "params": {},
+                             "why": "已核事实匹配产物缺失，先建 initial 簇检索建议"}],
+                "stop": False}
+    sq = state.get("suggested_queries")
+    if not sq:
+        return {"actions": [{"agent": "verify", "action": "suggest_queries", "params": {},
+                             "why": "检索式产物缺失，为 initial 簇生成可点击核查式"}],
+                "stop": False}
+    ef = state.get("evidence_families")
+    if not ef:
+        return {"actions": [{"agent": "cluster", "action": "cluster_cases_v2",
+                             "params": {"compare": True},
+                             "why": "归簇 v2 产物缺失，重建并附 v1 对比与候选清单"}],
+                "stop": False}
     packets = state.get("packets", {})
     grounded = packets.get("source_grounded") or 0
     total = packets.get("count") or 0
