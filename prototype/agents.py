@@ -28,9 +28,16 @@ MODULES = {
     "card": "agent_card",
 }
 
+# 动作级路由：同一 Agent 下个别动作由独立模块执行（模块 run(params) 签名相同）。
+# 未命中的动作沿用 MODULES 的 Agent 级默认模块。
+ACTION_MODULES = {
+    ("cluster", "cluster_cases_v2"): "agent_cluster_v2",
+    ("verify", "match_claims"): "claim_matcher",
+}
 
-def _load_module(agent: str):
-    mod_name = MODULES[agent]
+
+def _load_module(agent: str, action: str | None = None):
+    mod_name = ACTION_MODULES.get((agent, action)) or MODULES[agent]
     return __import__(mod_name)
 
 
@@ -40,7 +47,7 @@ def execute(task: dict) -> dict:
     action = task["action"]
     params = dict(task.get("params") or {})
     try:
-        mod = _load_module(agent)
+        mod = _load_module(agent, action)
         partial = mod.run(action, params) if agent == "collect" else mod.run(params)
     except Exception as e:  # noqa: BLE001 —— Agent 内部任何崩溃都要变成结果信封
         return make_result(task, "error",

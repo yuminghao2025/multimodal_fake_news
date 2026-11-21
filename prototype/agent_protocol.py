@@ -82,6 +82,15 @@ ACTION_MANIFEST: dict[str, dict] = {
                 "params": {"threshold": "相似度阈值(float,默认0.30)",
                            "max_size": "单簇上限(int,默认60)", "source": "index|cases"},
             },
+            "cluster_cases_v2": {
+                "desc": "语义+词面混合归簇 v2（多语言 SBERT，输出 events_v2.json；"
+                        "compare=true 时附 v1 对比与近失候选清单，需已装 sentence-transformers）",
+                "params": {"threshold": "混合相似度阈值(float,默认0.85)",
+                           "max_size": "单簇上限(int,默认60)",
+                           "compare": "true=附 v1/v2 对比报告(bool)",
+                           "rebuild_cache": "true=重新编码(bool)",
+                           "source": "index|cases"},
+            },
         },
     },
     "verify": {
@@ -91,6 +100,11 @@ ACTION_MANIFEST: dict[str, dict] = {
                 "desc": "自动预检只给缺口清单，verdict 一律留空待外部检索",
                 "params": {"events": "metadata/events.json 路径(可省)",
                            "event_ids": "逗号分隔的事件 ID(可省=全部)"},
+            },
+            "match_claims": {
+                "desc": "已核事实匹配（CheckThat Task3 形态）：initial 簇 vs 已核库 "
+                        "top-k 最近邻，输出 claim_matches.json（来源建议，回填仍走人工）",
+                "params": {"threshold": "语义相似度阈值(float,默认0.55)"},
             },
         },
     },

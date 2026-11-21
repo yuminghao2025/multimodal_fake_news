@@ -41,6 +41,22 @@ def setup_logger(name: str) -> logging.Logger:
     return logger
 
 
+def ensure_repo_tmp() -> Path:
+    """把 tempdir 强制指到仓库内 .tmp_pip 并确保存在。
+
+    背景：DSH 沙箱/受限环境下，python 子进程对系统 Temp 常无写权限
+    （父 shell 可写、python 不可写），tempfile.gettempdir() 直接抛
+    FileNotFoundError——openpyxl 写表、torch 导入都会踩中。
+    需要临时目录的模块在 import 早期调用本函数即可。
+    """
+    import os
+    d = ROOT / ".tmp_pip"
+    d.mkdir(parents=True, exist_ok=True)
+    for k in ("TMP", "TEMP", "TMPDIR"):
+        os.environ[k] = str(d)
+    return d
+
+
 def append_jsonl(path: Path, records) -> int:
     n = 0
     path.parent.mkdir(parents=True, exist_ok=True)

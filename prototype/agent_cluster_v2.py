@@ -35,8 +35,19 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-# HF 直连在国内不稳定：默认走镜像，可用环境变量覆盖
+# HF 直连在国内不稳定：默认走镜像，可用环境变量覆盖。
+# 缓存目录默认落仓库内（沙箱/受限环境对用户全局目录常无写权限）；
+# 模型已缓存时默认离线加载，避免每次启动都打 HEAD 请求。
 os.environ.setdefault("HF_ENDPOINT", "https://hf-mirror.com")
+from common import METADATA_DIR, ROOT, ensure_repo_tmp  # noqa: E402  需在 torch 导入前设 tempdir
+
+ensure_repo_tmp()          # torch 导入需要 tempdir；沙箱对系统 Temp 常不可写
+os.environ.setdefault("HF_HOME", str(ROOT / ".hf_cache"))
+_HUB_DIR = Path(os.environ["HF_HOME"]) / "hub"
+if any(_HUB_DIR.glob("models--*")):
+    os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+os.environ.setdefault("HF_HUB_DISABLE_XET", "1")
 
 import numpy as np
 
