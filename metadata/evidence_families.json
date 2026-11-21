@@ -1,0 +1,85 @@
+{
+ "schema_version": "evidence_families.v1",
+ "sources": {
+  "xlsx_evidence_urls": 69,
+  "source_txt_urls": 0
+ },
+ "families_ge2": 4,
+ "members_covered": 8,
+ "missing_pairs_total": 2,
+ "families": [
+  {
+   "members": [
+    "us_politics__anthropic_ceo_reacts_trump_cnn_attack",
+    "us_politics__trump_interrupts_media_cnn_shorts"
+   ],
+   "size": 2,
+   "shared_evidence_urls": [
+    "https://www.stuff.co.nz/world-news/361040391/anthropic-boss-shuffles-background-trump-calls-cnn-fake-news"
+   ],
+   "current_clusters": [
+    "E06",
+    "E13"
+   ],
+   "already_same_cluster": false,
+   "missing_pairs": [
+    [
+     "us_politics__anthropic_ceo_reacts_trump_cnn_attack",
+     "us_politics__trump_interrupts_media_cnn_shorts"
+    ]
+   ]
+  },
+  {
+   "members": [
+    "us_politics__trump_refuses_cnn_question",
+    "us_politics__white_house_fake_news_cnn_clip"
+   ],
+   "size": 2,
+   "shared_evidence_urls": [
+    "https://www.themirror.com/entertainment/tv/donald-trump-snaps-cnn-reporter-1696076"
+   ],
+   "current_clusters": [
+    "E04",
+    "E15"
+   ],
+   "already_same_cluster": false,
+   "missing_pairs": [
+    [
+     "us_politics__trump_refuses_cnn_question",
+     "us_politics__white_house_fake_news_cnn_clip"
+    ]
+   ]
+  },
+  {
+   "members": [
+    "us_politics__trump_silences_cnn_reporter_shorts",
+    "us_politics__trump_spars_cnn_anchor"
+   ],
+   "size": 2,
+   "shared_evidence_urls": [
+    "https://www.themirror.com/entertainment/donald-trump-fox-news-cnn-1988041"
+   ],
+   "current_clusters": [
+    "E02"
+   ],
+   "already_same_cluster": true,
+   "missing_pairs": []
+  },
+  {
+   "members": [
+    "x_deepfake__tweet_2066189735",
+    "x_deepfake__tweet_7975021817"
+   ],
+   "size": 2,
+   "shared_evidence_urls": [
+    "https://www.komdigi.go.id/berita/siaran-pers/detail/deepfake-makin-sulit-dikenali-kemkomdigi-kaji-aturan-label-konten-ai"
+   ],
+   "current_clusters": [
+    "E01"
+   ],
+   "already_same_cluster": true,
+   "missing_pairs": []
+  }
+ ],
+ "note": "同证据URL=同主张家族（确定性信号）。missing_pairs 供人工确认后并簇；同族不同结论的案例按标注规范分开处理，不强制同簇。"
+}

@@ -116,6 +116,27 @@ def main() -> int:
             for cell in row:
                 cell.alignment = thin
 
+    # ---- sheet2c: 证据同族（确定性信号：同 evidence_url = 同主张家族）----
+    ef_path = METADATA_DIR / "evidence_families.json"
+    if ef_path.exists():
+        ef = _loads(ef_path)
+        ws2c = wb.create_sheet("证据同族")
+        cols2c = ["族成员", "共享证据URL", "现属簇", "已同簇", "漏并对", "决定(并/不并)", "理由"]
+        ws2c.append(cols2c)
+        for f in ef.get("families", []):
+            ws2c.append([" / ".join(f.get("members", [])),
+                         " ; ".join(f.get("shared_evidence_urls", [])),
+                         " / ".join(f.get("current_clusters", [])),
+                         "是" if f.get("already_same_cluster") else "否",
+                         json.dumps(f.get("missing_pairs", []), ensure_ascii=False),
+                         "", ""])
+        style_header(ws2c, len(cols2c))
+        for i, w in enumerate([46, 44, 14, 8, 40, 12, 20], 1):
+            ws2c.column_dimensions[get_column_letter(i)].width = w
+        for row in ws2c.iter_rows(min_row=2):
+            for cell in row:
+                cell.alignment = thin
+
     # ---- sheet3: 簇对照 ----
     ws3 = wb.create_sheet("簇对照")
     ws3.append(["event_id", "簇大小", "成员标题"])
