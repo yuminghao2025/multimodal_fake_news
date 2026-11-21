@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -123,6 +124,101 @@ def semantic_matrix(fused: np.ndarray) -> dict[tuple[int, int], float]:
     return sim
 
 
+# ---------- v3：实体/频道/时间归一 ----------
+
+RE_HASHTAG = re.compile(r"#.*$")
+RE_DIGITS = re.compile(r"\d+")
+RE_TWEET_ID = re.compile(r"tweet_(\d+)")
+RE_ENT = re.compile(r"\b[A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*")
+
+
+def entity_set(title: str) -> set[str]:
+    """标题大写词组集合（实体近似）；词内含通用词的丢弃。"""
+    out = set()
+    for m in RE_ENT.findall(title or ""):
+        if len(m) < 4:
+            continue
+        out.add(m)
+    return out
+
+
+def load_meta_index() -> dict[str, dict]:
+    """video_id/tweet_id → {channel, published}（youtube + x；其余平台无此元数据）。"""
+    meta: dict[str, dict] = {}
+    ym = METADATA_DIR / "youtube_meta.jsonl"
+    if ym.exists():
+        for line in ym.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if r.get("video_id"):
+                meta[r["video_id"]] = {"channel": r.get("channel_title"),
+                                       "published": r.get("published_at")}
+    for p in (METADATA_DIR / "x").glob("*.jsonl"):
+        for line in p.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if r.get("tweet_id"):
+                meta.setdefault(str(r["tweet_id"]),
+                                {"channel": r.get("user"), "published": r.get("created_at")})
+    return meta
+
+
+def case_meta(c: dict, meta: dict) -> dict:
+    vid = c.get("video_id")
+    if not vid:
+        m = RE_TWEET_ID.search(c.get("id") or "")
+        vid = m.group(1) if m else None
+    info = meta.get(str(vid)) if vid else None
+    return {"channel": (info or {}).get("channel"), "published": (info or {}).get("published")}
+
+
+def template_key(title: str) -> str:
+    """标题模板：去话题尾巴 → 小写 → 数字归一为 '#' → 压空白。同模板不同数字 = 疑似系列。"""
+    t = RE_HASHTAG.sub("", title or "").lower()
+    t = RE_DIGITS.sub("#", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def digits_of(title: str) -> tuple:
+    return tuple(sorted(RE_DIGITS.findall(title or "")))
+
+
+def series_suspect(ta: str, tb: str, ca: dict | None, cb: dict | None) -> bool:
+    """同模板 + 数字不同（+频道已知则须同频道）→ 疑似同系列不同集，拦自动并。"""
+    ka, kb = template_key(ta), template_key(tb)
+    if not ka or not kb:
+        return False
+    import difflib
+    if difflib.SequenceMatcher(None, ka, kb).ratio() < 0.92:
+        return False
+    if digits_of(ta) == digits_of(tb):
+        return False  # 数字也相同 → 更可能是真重复/同集，不拦
+    if ca and cb and ca.get("channel") and cb.get("channel"):
+        if ca["channel"] != cb["channel"]:
+            return False  # 不同频道的同模板：同题材搬运，交语义/人工
+    return True
+
+
+def time_gap_days(pa: str | None, pb: str | None) -> int | None:
+    if not pa or not pb:
+        return None
+    try:
+        from datetime import datetime
+        da = datetime.fromisoformat(str(pa).replace("Z", "+00:00"))
+        db = datetime.fromisoformat(str(pb).replace("Z", "+00:00"))
+        return abs((da - db).days)
+    except ValueError:
+        return None
+
+
 def run(params: dict) -> dict:
     threshold = float(params.get("threshold") or DEFAULT_THRESHOLD)
     max_size = int(params.get("max_size") or 60)
@@ -146,6 +242,10 @@ def run(params: dict) -> dict:
 
     hybrid: dict[tuple[int, int], float] = {}
     titles = [(c.get("title") or c.get("id") or "") for c in cases]
+    # v3 归一：频道/发布时间（youtube_meta + x jsonl 可 join 的部分）
+    meta_idx = load_meta_index()
+    cmeta = [case_meta(c, meta_idx) for c in cases]
+    series_flags: dict[tuple[int, int], bool] = {}
     keys = set(sem) | set(lex)
     for k in keys:
         s, l = sem.get(k, 0.0), lex.get(k, 0.0)
@@ -159,6 +259,12 @@ def run(params: dict) -> dict:
         # 取 max 而非加权：跨语言对词面≈0，加权会系统性压低；
         # max = "语义或词面任一足够像" — 两个通道各守各的强项
         m = max(s, l)
+        # v3 系列守卫：同模板+数字不同（如 "A Solid 10/11/13 Minutes"）疑似
+        # 同系列不同集，不是同一事件——压到阈值下方，强制走人工复核
+        i, j = k
+        if m >= threshold and series_suspect(titles[i], titles[j], cmeta[i], cmeta[j]):
+            series_flags[k] = True
+            m = threshold - 0.01
         if m > 0.10:
             hybrid[k] = m
 
@@ -170,13 +276,21 @@ def run(params: dict) -> dict:
     for (i, j), s in sorted(hybrid.items(), key=lambda kv: -kv[1]):
         if threshold - 0.10 <= s < threshold:
             a, b = cases[i], cases[j]
+            kk = (i, j) if i < j else (j, i)
             candidates.append({
                 "sim": round(s, 3),
-                "semantic": round(sem.get((i, j) if i < j else (j, i), 0.0), 3),
-                "lexical": round(lex.get((i, j) if i < j else (j, i), 0.0), 3),
+                "semantic": round(sem.get(kk, 0.0), 3),
+                "lexical": round(lex.get(kk, 0.0), 3),
                 "pair": [a.get("id"), b.get("id")],
                 "titles": [(a.get("title") or "")[:80], (b.get("title") or "")[:80]],
                 "platforms": [a.get("platform"), b.get("platform")],
+                "channels": [cmeta[i].get("channel"), cmeta[j].get("channel")],
+                "time_gap_days": time_gap_days(cmeta[i].get("published"),
+                                               cmeta[j].get("published")),
+                "entity_jaccard": (
+                    lambda ea, eb: round(len(ea & eb) / len(ea | eb), 3) if ea | eb else None
+                )(entity_set(titles[i]), entity_set(titles[j])),
+                "series_suspect": series_flags.get(kk, False),
             })
 
     def to_events(groups_: list[list[int]], tag: str):
@@ -206,9 +320,10 @@ def run(params: dict) -> dict:
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "source": source,
         "model": MODEL_NAME,
-        "combine": "max(semantic, lexical) + 语义通道标题长度门槛",
+        "combine": "max(semantic, lexical) + 长度门槛 + 系列守卫(v3 归一)",
         "weights": {"title_blend": BLEND_TITLE, "body_blend": BLEND_BODY,
                     "sem_min_title": SEM_MIN_TITLE},
+        "guards": {"series_suspect_blocked": len(series_flags)},
         "params": {"threshold": threshold, "max_size": max_size},
         "case_count": n,
         "count": len(events),
