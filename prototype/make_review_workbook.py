@@ -55,18 +55,23 @@ def main() -> int:
     ws1 = wb.active
     ws1.title = "归簇候选"
     cols = ["类型", "pair_a", "pair_b", "标题A", "标题B", "相似度", "语义分", "词面分",
-            "平台A", "平台B", "决定(并/不并)", "理由"]
+            "平台A", "平台B", "频道A", "频道B", "时间差(天)", "实体Jaccard", "系列嫌疑",
+            "决定(并/不并)", "理由"]
     ws1.append(cols)
     for m in ev2.get("merges", []):
         ws1.append(["自动合并(已并,确认)", m["pair"][0], m["pair"][1],
-                    m["titles"][0], m["titles"][1], m.get("avg_sim"), "", "", "", "", "", ""])
+                    m["titles"][0], m["titles"][1], m.get("avg_sim"), "", "", "", "",
+                    "", "", "", "", "", "", ""])
     for c in ev2.get("candidates", []):
         ws1.append(["近失候选(待定)", c["pair"][0], c["pair"][1],
                     c["titles"][0], c["titles"][1], c["sim"], c.get("semantic"),
                     c.get("lexical"), c.get("platforms", ["", ""])[0],
-                    c.get("platforms", ["", ""])[1], "", ""])
+                    c.get("platforms", ["", ""])[1],
+                    (c.get("channels") or ["", ""])[0], (c.get("channels") or ["", ""])[1],
+                    c.get("time_gap_days"), c.get("entity_jaccard"),
+                    "是" if c.get("series_suspect") else "", "", ""])
     style_header(ws1, len(cols))
-    widths = [16, 26, 26, 44, 44, 8, 8, 8, 10, 10, 12, 24]
+    widths = [16, 26, 26, 44, 44, 8, 8, 8, 10, 10, 12, 12, 10, 10, 8, 12, 20]
     for i, w in enumerate(widths, 1):
         ws1.column_dimensions[get_column_letter(i)].width = w
     for row in ws1.iter_rows(min_row=2):

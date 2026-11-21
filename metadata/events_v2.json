@@ -1,13 +1,16 @@
 {
  "schema_version": "events.v2",
- "generated_at": "2026-11-20T07:02:25+00:00",
+ "generated_at": "2026-11-21T06:04:49+00:00",
  "source": "index",
  "model": "paraphrase-multilingual-MiniLM-L12-v2",
- "combine": "max(semantic, lexical) + 语义通道标题长度门槛",
+ "combine": "max(semantic, lexical) + 长度门槛 + 系列守卫(v3 归一)",
  "weights": {
   "title_blend": 0.7,
   "body_blend": 0.3,
   "sem_min_title": 40
+ },
+ "guards": {
+  "series_suspect_blocked": 0
  },
  "params": {
   "threshold": 0.85,
@@ -76,7 +79,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "Fox News",
+    "Hook Global"
+   ],
+   "time_gap_days": 44,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.834,
@@ -93,7 +103,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "The Quint",
+    "NovoKnow"
+   ],
+   "time_gap_days": 744,
+   "entity_jaccard": 0.143,
+   "series_suspect": false
   },
   {
    "sim": 0.832,
@@ -110,7 +127,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "Fox News",
+    "India Today"
+   ],
+   "time_gap_days": 177,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.826,
@@ -127,7 +151,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "Hook Global",
+    "Fox News"
+   ],
+   "time_gap_days": 533,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.821,
@@ -144,7 +175,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "Hook Global",
+    "India Today"
+   ],
+   "time_gap_days": 220,
+   "entity_jaccard": 0.167,
+   "series_suspect": false
   },
   {
    "sim": 0.818,
@@ -161,7 +199,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "ET Now",
+    "Hook Global"
+   ],
+   "time_gap_days": 1,
+   "entity_jaccard": 0.143,
+   "series_suspect": false
   },
   {
    "sim": 0.817,
@@ -178,7 +223,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "ET Now",
+    "Fox News"
+   ],
+   "time_gap_days": 533,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.809,
@@ -195,7 +247,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "Al Jazeera English",
+    "Behind the News"
+   ],
+   "time_gap_days": 339,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.8,
@@ -212,7 +271,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "KMPH FOX26 NEWS",
+    "Fox News"
+   ],
+   "time_gap_days": 70,
+   "entity_jaccard": 1.0,
+   "series_suspect": false
   },
   {
    "sim": 0.799,
@@ -229,7 +295,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "TED",
+    "Al Jazeera English"
+   ],
+   "time_gap_days": 2085,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.796,
@@ -246,7 +319,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "TED",
+    "TED"
+   ],
+   "time_gap_days": 2244,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.794,
@@ -263,7 +343,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "ET Now",
+    "KMPH FOX26 NEWS"
+   ],
+   "time_gap_days": 462,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.793,
@@ -280,7 +367,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "Fox News",
+    "KMPH FOX26 NEWS"
+   ],
+   "time_gap_days": 419,
+   "entity_jaccard": 0.5,
+   "series_suspect": false
   },
   {
    "sim": 0.784,
@@ -297,7 +391,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "TED",
+    "TEDx Talks"
+   ],
+   "time_gap_days": 2043,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.783,
@@ -314,7 +415,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "India Today",
+    "LiveNOW from FOX"
+   ],
+   "time_gap_days": 2779,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.781,
@@ -331,7 +439,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "act.tv",
+    "Al Jazeera English"
+   ],
+   "time_gap_days": 1750,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.777,
@@ -348,7 +463,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "ET Now",
+    "India Today"
+   ],
+   "time_gap_days": 220,
+   "entity_jaccard": 0.167,
+   "series_suspect": false
   },
   {
    "sim": 0.772,
@@ -365,7 +487,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "Hook Global",
+    "KMPH FOX26 NEWS"
+   ],
+   "time_gap_days": 462,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.769,
@@ -382,7 +511,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "Hook Global",
+    "LiveNOW from FOX"
+   ],
+   "time_gap_days": 3000,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.765,
@@ -399,7 +535,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "India Today",
+    "Fox News"
+   ],
+   "time_gap_days": 312,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   },
   {
    "sim": 0.757,
@@ -416,7 +559,14 @@
    "platforms": [
     "youtube",
     "youtube"
-   ]
+   ],
+   "channels": [
+    "act.tv",
+    "TED"
+   ],
+   "time_gap_days": 1910,
+   "entity_jaccard": 0.0,
+   "series_suspect": false
   }
  ],
  "events": [
