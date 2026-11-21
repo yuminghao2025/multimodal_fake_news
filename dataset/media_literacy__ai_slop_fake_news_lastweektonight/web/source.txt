@@ -1,2 +1,2 @@
 source_url: https://www.youtube.com/watch?v=JSJee1YscYk
-evidence_url: （待核查对齐）
+evidence_url: https://futurism.com/john-oliver-ai-slop

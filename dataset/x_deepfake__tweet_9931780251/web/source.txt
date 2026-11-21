@@ -1,2 +1,2 @@
 source_url: https://x.com/i/web/status/2111744449931780251
-evidence_url: （待核查对齐）
+evidence_url: https://blog.google/innovation-and-ai/models-and-research/google-deepmind/synth-id-ai-content/

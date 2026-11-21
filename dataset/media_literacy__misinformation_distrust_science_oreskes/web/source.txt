@@ -1,2 +1,2 @@
 source_url: https://www.youtube.com/watch?v=DbTHJWev0nQ
-evidence_url: （待核查对齐）
+evidence_url: https://cc-master-800843789351.us-central1.run.app/course/youtube-misinformation-and-distrust-in-science-with-naomi-oreskes-478004

@@ -1,2 +1,2 @@
 source_url: https://www.youtube.com/watch?v=TynQMyr8yzo
-evidence_url: （待核查对齐）
+evidence_url: https://www.ted.com/talks/chris_coward_unmasking_misinformation

@@ -1,2 +1,2 @@
 source_url: https://www.youtube.com/watch?v=3yGSaeOUHik
-evidence_url: （待核查对齐）
+evidence_url: https://www.ted.com/talks/dave_jorgenson_a_surprisingly_effective_way_to_fight_misinformation

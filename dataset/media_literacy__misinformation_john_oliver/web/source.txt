@@ -1,2 +1,2 @@
 source_url: https://www.youtube.com/watch?v=l5jtFqWq5iU
-evidence_url: （待核查对齐）
+evidence_url: https://mediawell.ssrc.org/news-items/john-oliver-on-digital-misinformation-there-needs-to-be-more-public-pressure-on-platforms-the-guardian/
