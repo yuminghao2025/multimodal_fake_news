@@ -33,6 +33,7 @@ MODULES = {
 ACTION_MODULES = {
     ("cluster", "cluster_cases_v2"): "agent_cluster_v2",
     ("verify", "match_claims"): "claim_matcher",
+    ("verify", "suggest_queries"): "suggest_queries",
 }
 
 

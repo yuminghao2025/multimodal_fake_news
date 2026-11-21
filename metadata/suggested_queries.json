@@ -1,0 +1,748 @@
+{
+ "schema_version": "suggested_queries.v1",
+ "generated_note": "规则版 v1（无 LLM）：标题词面保守组合，只做检索起步，不构成证据",
+ "targets": 35,
+ "with_queries": 35,
+ "queries": {
+  "E06": [
+   {
+    "kind": "短语精确",
+    "q": "\"Trump Interrupts Media, Calls CNN “Fake News… The Worst!”\"",
+    "url": "https://www.bing.com/search?q=%22Trump%20Interrupts%20Media%2C%20Calls%20CNN%20%E2%80%9CFake%20News%E2%80%A6%20The%20Worst%21%E2%80%9D%22"
+   },
+   {
+    "kind": "实体组合",
+    "q": "Trump Interrupts Media Calls CNN",
+    "url": "https://www.bing.com/search?q=Trump%20Interrupts%20Media%20Calls%20CNN"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻 特朗普 Trump Interrupts Media",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB%20%E7%89%B9%E6%9C%97%E6%99%AE%20Trump%20Interrupts%20Media"
+   },
+   {
+    "kind": "核查站",
+    "q": "Trump Interrupts Media, Calls CNN “Fake News… The  fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/Trump%20Interrupts%20Media%2C%20Calls%20CNN%20%E2%80%9CFake%20News%E2%80%A6%20The%20"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻 特朗普 Trump Interrupts Media",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB%20%E7%89%B9%E6%9C%97%E6%99%AE%20Trump%20Interrupts%20Media"
+   }
+  ],
+  "E12": [
+   {
+    "kind": "短语精确",
+    "q": "\"How to identify Fake News? | What is Fake News? | Fact Check\"",
+    "url": "https://www.bing.com/search?q=%22How%20to%20identify%20Fake%20News%3F%20%7C%20What%20is%20Fake%20News%3F%20%7C%20Fact%20Check%22"
+   },
+   {
+    "kind": "实体组合",
+    "q": "Fact Check",
+    "url": "https://www.bing.com/search?q=Fact%20Check"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻 Fact Check",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB%20Fact%20Check"
+   },
+   {
+    "kind": "核查站",
+    "q": "How to identify Fake News? | What is Fake News? |  fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/How%20to%20identify%20Fake%20News%3F%20%7C%20What%20is%20Fake%20News%3F%20%7C%20"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻 Fact Check",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB%20Fact%20Check"
+   }
+  ],
+  "E20": [
+   {
+    "kind": "短语精确",
+    "q": "\"Most hilarious & extreme Fake News Pranks on parents\"",
+    "url": "https://www.bing.com/search?q=%22Most%20hilarious%20%26%20extreme%20Fake%20News%20Pranks%20on%20parents%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "Most hilarious & extreme Fake News Pranks on paren fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/Most%20hilarious%20%26%20extreme%20Fake%20News%20Pranks%20on%20paren"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E22": [
+   {
+    "kind": "短语精确",
+    "q": "\"FAKE NEWS : L'étude qui fait paniquer les politiciens\"",
+    "url": "https://www.bing.com/search?q=%22FAKE%20NEWS%20%3A%20L%27%C3%A9tude%20qui%20fait%20paniquer%20les%20politiciens%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "FAKE NEWS : L'étude qui fait paniquer les politici fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/FAKE%20NEWS%20%3A%20L%27%C3%A9tude%20qui%20fait%20paniquer%20les%20politici"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E28": [
+   {
+    "kind": "短语精确",
+    "q": "\"heard you saying misinformation\"",
+    "url": "https://www.bing.com/search?q=%22heard%20you%20saying%20misinformation%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "虚假信息",
+    "url": "https://www.bing.com/search?q=%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   },
+   {
+    "kind": "核查站",
+    "q": "heard you saying misinformation fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/heard%20you%20saying%20misinformation"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 虚假信息",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   }
+  ],
+  "E32": [
+   {
+    "kind": "短语精确",
+    "q": "\"Explained in 60 Seconds: The Psychology of Misinformation\"",
+    "url": "https://www.bing.com/search?q=%22Explained%20in%2060%20Seconds%3A%20The%20Psychology%20of%20Misinformation%22"
+   },
+   {
+    "kind": "实体组合",
+    "q": "The Psychology",
+    "url": "https://www.bing.com/search?q=The%20Psychology"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "虚假信息 The Psychology",
+    "url": "https://www.bing.com/search?q=%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF%20The%20Psychology"
+   },
+   {
+    "kind": "核查站",
+    "q": "Explained in 60 Seconds: The Psychology of Misinfo fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/Explained%20in%2060%20Seconds%3A%20The%20Psychology%20of%20Misinfo"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 虚假信息 The Psychology",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF%20The%20Psychology"
+   }
+  ],
+  "E33": [
+   {
+    "kind": "短语精确",
+    "q": "\"A Solid 10 Minutes of Misinformation\"",
+    "url": "https://www.bing.com/search?q=%22A%20Solid%2010%20Minutes%20of%20Misinformation%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "虚假信息",
+    "url": "https://www.bing.com/search?q=%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   },
+   {
+    "kind": "核查站",
+    "q": "A Solid 10 Minutes of Misinformation fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/A%20Solid%2010%20Minutes%20of%20Misinformation"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 虚假信息",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   }
+  ],
+  "E37": [
+   {
+    "kind": "短语精确",
+    "q": "\"7 types of misinformation\"",
+    "url": "https://www.bing.com/search?q=%227%20types%20of%20misinformation%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "虚假信息",
+    "url": "https://www.bing.com/search?q=%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   },
+   {
+    "kind": "核查站",
+    "q": "7 types of misinformation fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/7%20types%20of%20misinformation"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 虚假信息",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   }
+  ],
+  "E38": [
+   {
+    "kind": "短语精确",
+    "q": "\"A Solid 13 Minutes of Misinformation\"",
+    "url": "https://www.bing.com/search?q=%22A%20Solid%2013%20Minutes%20of%20Misinformation%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "虚假信息",
+    "url": "https://www.bing.com/search?q=%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   },
+   {
+    "kind": "核查站",
+    "q": "A Solid 13 Minutes of Misinformation fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/A%20Solid%2013%20Minutes%20of%20Misinformation"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 虚假信息",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   }
+  ],
+  "E43": [
+   {
+    "kind": "短语精确",
+    "q": "\"What is The Difference Between Disinformation and Misinformation? | The Quint\"",
+    "url": "https://www.bing.com/search?q=%22What%20is%20The%20Difference%20Between%20Disinformation%20and%20Misinformation%3F%20%7C%20The%20Quint%22"
+   },
+   {
+    "kind": "实体组合",
+    "q": "The Difference Between Disinformation The Quint",
+    "url": "https://www.bing.com/search?q=The%20Difference%20Between%20Disinformation%20The%20Quint"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "虚假信息 The Difference Between Disinformation",
+    "url": "https://www.bing.com/search?q=%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF%20The%20Difference%20Between%20Disinformation"
+   },
+   {
+    "kind": "核查站",
+    "q": "What is The Difference Between Disinformation and  fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/What%20is%20The%20Difference%20Between%20Disinformation%20and%20"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 虚假信息 The Difference Between Disinformation",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF%20The%20Difference%20Between%20Disinformation"
+   }
+  ],
+  "E45": [
+   {
+    "kind": "短语精确",
+    "q": "\"A Solid 11 Minutes of Misinformation\"",
+    "url": "https://www.bing.com/search?q=%22A%20Solid%2011%20Minutes%20of%20Misinformation%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "虚假信息",
+    "url": "https://www.bing.com/search?q=%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   },
+   {
+    "kind": "核查站",
+    "q": "A Solid 11 Minutes of Misinformation fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/A%20Solid%2011%20Minutes%20of%20Misinformation"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 虚假信息",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF"
+   }
+  ],
+  "E46": [
+   {
+    "kind": "短语精确",
+    "q": "\"Misinformation vs Disinformation vs Malinformation: Don't Be Fooled!\"",
+    "url": "https://www.bing.com/search?q=%22Misinformation%20vs%20Disinformation%20vs%20Malinformation%3A%20Don%27t%20Be%20Fooled%21%22"
+   },
+   {
+    "kind": "实体组合",
+    "q": "Be Fooled",
+    "url": "https://www.bing.com/search?q=Be%20Fooled"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "虚假信息 Be Fooled",
+    "url": "https://www.bing.com/search?q=%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF%20Be%20Fooled"
+   },
+   {
+    "kind": "核查站",
+    "q": "Misinformation vs Disinformation vs Malinformation fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/Misinformation%20vs%20Disinformation%20vs%20Malinformation"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 虚假信息 Be Fooled",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF%20Be%20Fooled"
+   }
+  ],
+  "E47": [
+   {
+    "kind": "短语精确",
+    "q": "\"Joe Rogan, Destiny and Misinformation\"",
+    "url": "https://www.bing.com/search?q=%22Joe%20Rogan%2C%20Destiny%20and%20Misinformation%22"
+   },
+   {
+    "kind": "实体组合",
+    "q": "Joe Rogan",
+    "url": "https://www.bing.com/search?q=Joe%20Rogan"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "虚假信息 Joe Rogan",
+    "url": "https://www.bing.com/search?q=%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF%20Joe%20Rogan"
+   },
+   {
+    "kind": "核查站",
+    "q": "Joe Rogan, Destiny and Misinformation fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/Joe%20Rogan%2C%20Destiny%20and%20Misinformation"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 虚假信息 Joe Rogan",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%99%9A%E5%81%87%E4%BF%A1%E6%81%AF%20Joe%20Rogan"
+   }
+  ],
+  "E48": [
+   {
+    "kind": "短语精确",
+    "q": "\"If you saw them over there, you’d be shocked. they’re more obsessed with Lisa th\"",
+    "url": "https://www.bing.com/search?q=%22If%20you%20saw%20them%20over%20there%2C%20you%E2%80%99d%20be%20shocked.%20they%E2%80%99re%20more%20obsessed%20with%20Lisa%20th%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "If you saw them over there, you’d be shocked. they fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/If%20you%20saw%20them%20over%20there%2C%20you%E2%80%99d%20be%20shocked.%20they"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn If you saw them over",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20If%20you%20saw%20them%20over"
+   }
+  ],
+  "E49": [
+   {
+    "kind": "短语精确",
+    "q": "\"AI is becoming a powerful shield against online threats. From detecting deepfak\"",
+    "url": "https://www.bing.com/search?q=%22AI%20is%20becoming%20a%20powerful%20shield%20against%20online%20threats.%20From%20detecting%20deepfak%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "AI is becoming a powerful shield against online th fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/AI%20is%20becoming%20a%20powerful%20shield%20against%20online%20th"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn AI is becoming a pow",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20AI%20is%20becoming%20a%20pow"
+   }
+  ],
+  "E50": [
+   {
+    "kind": "短语精确",
+    "q": "\"I am not comfortable but it’s the future. Agents have my social security number\"",
+    "url": "https://www.bing.com/search?q=%22I%20am%20not%20comfortable%20but%20it%E2%80%99s%20the%20future.%20Agents%20have%20my%20social%20security%20number%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "I am not comfortable but it’s the future. Agents h fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/I%20am%20not%20comfortable%20but%20it%E2%80%99s%20the%20future.%20Agents%20h"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn I am not comfortable",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20I%20am%20not%20comfortable"
+   }
+  ],
+  "E51": [
+   {
+    "kind": "短语精确",
+    "q": "\"ಜಾಹ್ನವಿ ಕಪೂರ್​, ನೇಹಾ ಶರ್ಮಾ ಆಯ್ತು ಈ ಕಿಡಿಗೇಡಿಗಳ ಮುಂದಿನ ಟಾರ್ಗೆಟ್​ ಯಾರು? ತಲ್ಲಣ ಸೃಷ್ಟ\"",
+    "url": "https://www.bing.com/search?q=%22%E0%B2%9C%E0%B2%BE%E0%B2%B9%E0%B3%8D%E0%B2%A8%E0%B2%B5%E0%B2%BF%20%E0%B2%95%E0%B2%AA%E0%B3%82%E0%B2%B0%E0%B3%8D%E2%80%8B%2C%20%E0%B2%A8%E0%B3%87%E0%B2%B9%E0%B2%BE%20%E0%B2%B6%E0%B2%B0%E0%B3%8D%E0%B2%AE%E0%B2%BE%20%E0%B2%86%E0%B2%AF%E0%B3%8D%E0%B2%A4%E0%B3%81%20%E0%B2%88%20%E0%B2%95%E0%B2%BF%E0%B2%A1%E0%B2%BF%E0%B2%97%E0%B3%87%E0%B2%A1%E0%B2%BF%E0%B2%97%E0%B2%B3%20%E0%B2%AE%E0%B3%81%E0%B2%82%E0%B2%A6%E0%B2%BF%E0%B2%A8%20%E0%B2%9F%E0%B2%BE%E0%B2%B0%E0%B3%8D%E0%B2%97%E0%B3%86%E0%B2%9F%E0%B3%8D%E2%80%8B%20%E0%B2%AF%E0%B2%BE%E0%B2%B0%E0%B3%81%3F%20%E0%B2%A4%E0%B2%B2%E0%B3%8D%E0%B2%B2%E0%B2%A3%20%E0%B2%B8%E0%B3%83%E0%B2%B7%E0%B3%8D%E0%B2%9F%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "ಜಾಹ್ನವಿ ಕಪೂರ್​, ನೇಹಾ ಶರ್ಮಾ ಆಯ್ತು ಈ ಕಿಡಿಗೇಡಿಗಳ ಮುಂದ fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/%E0%B2%9C%E0%B2%BE%E0%B2%B9%E0%B3%8D%E0%B2%A8%E0%B2%B5%E0%B2%BF%20%E0%B2%95%E0%B2%AA%E0%B3%82%E0%B2%B0%E0%B3%8D%E2%80%8B%2C%20%E0%B2%A8%E0%B3%87%E0%B2%B9%E0%B2%BE%20%E0%B2%B6%E0%B2%B0%E0%B3%8D%E0%B2%AE%E0%B2%BE%20%E0%B2%86%E0%B2%AF%E0%B3%8D%E0%B2%A4%E0%B3%81%20%E0%B2%88%20%E0%B2%95%E0%B2%BF%E0%B2%A1%E0%B2%BF%E0%B2%97%E0%B3%87%E0%B2%A1%E0%B2%BF%E0%B2%97%E0%B2%B3%20%E0%B2%AE%E0%B3%81%E0%B2%82%E0%B2%A6"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn ಜಾಹ್ನವಿ ಕಪೂರ್​, ನೇಹಾ",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E0%B2%9C%E0%B2%BE%E0%B2%B9%E0%B3%8D%E0%B2%A8%E0%B2%B5%E0%B2%BF%20%E0%B2%95%E0%B2%AA%E0%B3%82%E0%B2%B0%E0%B3%8D%E2%80%8B%2C%20%E0%B2%A8%E0%B3%87%E0%B2%B9%E0%B2%BE"
+   }
+  ],
+  "E56": [
+   {
+    "kind": "短语精确",
+    "q": "\"risk of ai deepfake music by mr_farman_ai\"",
+    "url": "https://www.bing.com/search?q=%22risk%20of%20ai%20deepfake%20music%20by%20mr_farman_ai%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "AI换脸",
+    "url": "https://www.bing.com/search?q=AI%E6%8D%A2%E8%84%B8"
+   },
+   {
+    "kind": "核查站",
+    "q": "risk of ai deepfake music by mr_farman_ai fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/risk%20of%20ai%20deepfake%20music%20by%20mr_farman_ai"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn AI换脸",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20AI%E6%8D%A2%E8%84%B8"
+   }
+  ],
+  "E57": [
+   {
+    "kind": "短语精确",
+    "q": "\"Não é fake News\"",
+    "url": "https://www.bing.com/search?q=%22N%C3%A3o%20%C3%A9%20fake%20News%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "Não é fake News fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/N%C3%A3o%20%C3%A9%20fake%20News"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E58": [
+   {
+    "kind": "短语精确",
+    "q": "\"Right from the PM to the rest of the party, you guys are really jokers. Even a\"",
+    "url": "https://www.bing.com/search?q=%22Right%20from%20the%20PM%20to%20the%20rest%20of%20the%20party%2C%20you%20guys%20are%20really%20jokers.%20Even%20a%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "Right from the PM to the rest of the party, you gu fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/Right%20from%20the%20PM%20to%20the%20rest%20of%20the%20party%2C%20you%20gu"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn Right from the PM to",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20Right%20from%20the%20PM%20to"
+   }
+  ],
+  "E59": [
+   {
+    "kind": "短语精确",
+    "q": "\"BBC who faked a video claming Trump telling people to storm the congress and the\"",
+    "url": "https://www.bing.com/search?q=%22BBC%20who%20faked%20a%20video%20claming%20Trump%20telling%20people%20to%20storm%20the%20congress%20and%20the%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "特朗普",
+    "url": "https://www.bing.com/search?q=%E7%89%B9%E6%9C%97%E6%99%AE"
+   },
+   {
+    "kind": "核查站",
+    "q": "BBC who faked a video claming Trump telling people fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/BBC%20who%20faked%20a%20video%20claming%20Trump%20telling%20people"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 特朗普",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E7%89%B9%E6%9C%97%E6%99%AE"
+   }
+  ],
+  "E60": [
+   {
+    "kind": "短语精确",
+    "q": "\"FAKE NEWS!!!\"",
+    "url": "https://www.bing.com/search?q=%22FAKE%20NEWS%21%21%21%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "FAKE NEWS!!! fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/FAKE%20NEWS%21%21%21"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E61": [
+   {
+    "kind": "短语精确",
+    "q": "\"Fake News never been a site during midterms\"",
+    "url": "https://www.bing.com/search?q=%22Fake%20News%20never%20been%20a%20site%20during%20midterms%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "Fake News never been a site during midterms fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/Fake%20News%20never%20been%20a%20site%20during%20midterms"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E62": [
+   {
+    "kind": "短语精确",
+    "q": "\"That you’re a sheep and fake news\"",
+    "url": "https://www.bing.com/search?q=%22That%20you%E2%80%99re%20a%20sheep%20and%20fake%20news%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "That you’re a sheep and fake news fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/That%20you%E2%80%99re%20a%20sheep%20and%20fake%20news"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E63": [
+   {
+    "kind": "短语精确",
+    "q": "\"gente ????? queria saber o q essas contas ganham propagando fake news\"",
+    "url": "https://www.bing.com/search?q=%22gente%20%3F%3F%3F%3F%3F%20queria%20saber%20o%20q%20essas%20contas%20ganham%20propagando%20fake%20news%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "gente ????? queria saber o q essas contas ganham p fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/gente%20%3F%3F%3F%3F%3F%20queria%20saber%20o%20q%20essas%20contas%20ganham%20p"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E64": [
+   {
+    "kind": "短语精确",
+    "q": "\"Fake news non ? Je la vois pas.\"",
+    "url": "https://www.bing.com/search?q=%22Fake%20news%20non%20%3F%20Je%20la%20vois%20pas.%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "Fake news non ? Je la vois pas. fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/Fake%20news%20non%20%3F%20Je%20la%20vois%20pas."
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E65": [
+   {
+    "kind": "短语精确",
+    "q": "\"would i ever share fake news?\"",
+    "url": "https://www.bing.com/search?q=%22would%20i%20ever%20share%20fake%20news%3F%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "would i ever share fake news? fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/would%20i%20ever%20share%20fake%20news%3F"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E66": [
+   {
+    "kind": "短语精确",
+    "q": "\"สื่อส้ม fake news รีกันหลายหมื่น แถลงการณ์ขอโทษที่บิดเบือน ติ่งปิดหูปิดตาปิดปาก\"",
+    "url": "https://www.bing.com/search?q=%22%E0%B8%AA%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B9%89%E0%B8%A1%20fake%20news%20%E0%B8%A3%E0%B8%B5%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%AB%E0%B8%A1%E0%B8%B7%E0%B9%88%E0%B8%99%20%E0%B9%81%E0%B8%96%E0%B8%A5%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%93%E0%B9%8C%E0%B8%82%E0%B8%AD%E0%B9%82%E0%B8%97%E0%B8%A9%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%9A%E0%B8%B4%E0%B8%94%E0%B9%80%E0%B8%9A%E0%B8%B7%E0%B8%AD%E0%B8%99%20%E0%B8%95%E0%B8%B4%E0%B9%88%E0%B8%87%E0%B8%9B%E0%B8%B4%E0%B8%94%E0%B8%AB%E0%B8%B9%E0%B8%9B%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B2%E0%B8%9B%E0%B8%B4%E0%B8%94%E0%B8%9B%E0%B8%B2%E0%B8%81%22"
+   },
+   {
+    "kind": "中文圈(规则映射)",
+    "q": "假新闻",
+    "url": "https://www.bing.com/search?q=%E5%81%87%E6%96%B0%E9%97%BB"
+   },
+   {
+    "kind": "核查站",
+    "q": "สื่อส้ม fake news รีกันหลายหมื่น แถลงการณ์ขอโทษที่ fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/%E0%B8%AA%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B9%89%E0%B8%A1%20fake%20news%20%E0%B8%A3%E0%B8%B5%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%AB%E0%B8%A1%E0%B8%B7%E0%B9%88%E0%B8%99%20%E0%B9%81%E0%B8%96%E0%B8%A5%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%93%E0%B9%8C%E0%B8%82%E0%B8%AD%E0%B9%82%E0%B8%97%E0%B8%A9%E0%B8%97%E0%B8%B5%E0%B9%88"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 假新闻",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%81%87%E6%96%B0%E9%97%BB"
+   }
+  ],
+  "E73": [
+   {
+    "kind": "短语精确",
+    "q": "\"这份倡议书，值得一起读！\"",
+    "url": "https://www.bing.com/search?q=%22%E8%BF%99%E4%BB%BD%E5%80%A1%E8%AE%AE%E4%B9%A6%EF%BC%8C%E5%80%BC%E5%BE%97%E4%B8%80%E8%B5%B7%E8%AF%BB%EF%BC%81%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "这份倡议书，值得一起读！ fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/%E8%BF%99%E4%BB%BD%E5%80%A1%E8%AE%AE%E4%B9%A6%EF%BC%8C%E5%80%BC%E5%BE%97%E4%B8%80%E8%B5%B7%E8%AF%BB%EF%BC%81"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 这份倡议书，值得一起读！",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E8%BF%99%E4%BB%BD%E5%80%A1%E8%AE%AE%E4%B9%A6%EF%BC%8C%E5%80%BC%E5%BE%97%E4%B8%80%E8%B5%B7%E8%AF%BB%EF%BC%81"
+   }
+  ],
+  "E74": [
+   {
+    "kind": "短语精确",
+    "q": "\"今年寒露不一般，为60年一遇冷冬？\"",
+    "url": "https://www.bing.com/search?q=%22%E4%BB%8A%E5%B9%B4%E5%AF%92%E9%9C%B2%E4%B8%8D%E4%B8%80%E8%88%AC%EF%BC%8C%E4%B8%BA60%E5%B9%B4%E4%B8%80%E9%81%87%E5%86%B7%E5%86%AC%EF%BC%9F%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "今年寒露不一般，为60年一遇冷冬？ fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/%E4%BB%8A%E5%B9%B4%E5%AF%92%E9%9C%B2%E4%B8%8D%E4%B8%80%E8%88%AC%EF%BC%8C%E4%B8%BA60%E5%B9%B4%E4%B8%80%E9%81%87%E5%86%B7%E5%86%AC%EF%BC%9F"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 今年寒露不一般，为60年一遇冷冬？",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E4%BB%8A%E5%B9%B4%E5%AF%92%E9%9C%B2%E4%B8%8D%E4%B8%80%E8%88%AC%EF%BC%8C%E4%B8%BA60%E5%B9%B4%E4%B8%80%E9%81%87%E5%86%B7%E5%86%AC%EF%BC%9F"
+   }
+  ],
+  "E75": [
+   {
+    "kind": "短语精确",
+    "q": "\"干货满满！这堂公开课教你“望闻问切”辨谣言\"",
+    "url": "https://www.bing.com/search?q=%22%E5%B9%B2%E8%B4%A7%E6%BB%A1%E6%BB%A1%EF%BC%81%E8%BF%99%E5%A0%82%E5%85%AC%E5%BC%80%E8%AF%BE%E6%95%99%E4%BD%A0%E2%80%9C%E6%9C%9B%E9%97%BB%E9%97%AE%E5%88%87%E2%80%9D%E8%BE%A8%E8%B0%A3%E8%A8%80%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "干货满满！这堂公开课教你“望闻问切”辨谣言 fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/%E5%B9%B2%E8%B4%A7%E6%BB%A1%E6%BB%A1%EF%BC%81%E8%BF%99%E5%A0%82%E5%85%AC%E5%BC%80%E8%AF%BE%E6%95%99%E4%BD%A0%E2%80%9C%E6%9C%9B%E9%97%BB%E9%97%AE%E5%88%87%E2%80%9D%E8%BE%A8%E8%B0%A3%E8%A8%80"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 干货满满！这堂公开课教你“望闻问切”辨谣",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%B9%B2%E8%B4%A7%E6%BB%A1%E6%BB%A1%EF%BC%81%E8%BF%99%E5%A0%82%E5%85%AC%E5%BC%80%E8%AF%BE%E6%95%99%E4%BD%A0%E2%80%9C%E6%9C%9B%E9%97%BB%E9%97%AE%E5%88%87%E2%80%9D%E8%BE%A8%E8%B0%A3"
+   }
+  ],
+  "E76": [
+   {
+    "kind": "短语精确",
+    "q": "\"AI趣味视频｜秋补闯关，国庆解锁3个养生真相\"",
+    "url": "https://www.bing.com/search?q=%22AI%E8%B6%A3%E5%91%B3%E8%A7%86%E9%A2%91%EF%BD%9C%E7%A7%8B%E8%A1%A5%E9%97%AF%E5%85%B3%EF%BC%8C%E5%9B%BD%E5%BA%86%E8%A7%A3%E9%94%813%E4%B8%AA%E5%85%BB%E7%94%9F%E7%9C%9F%E7%9B%B8%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "AI趣味视频｜秋补闯关，国庆解锁3个养生真相 fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/AI%E8%B6%A3%E5%91%B3%E8%A7%86%E9%A2%91%EF%BD%9C%E7%A7%8B%E8%A1%A5%E9%97%AF%E5%85%B3%EF%BC%8C%E5%9B%BD%E5%BA%86%E8%A7%A3%E9%94%813%E4%B8%AA%E5%85%BB%E7%94%9F%E7%9C%9F%E7%9B%B8"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn AI趣味视频｜秋补闯关，国庆解锁3个养生",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20AI%E8%B6%A3%E5%91%B3%E8%A7%86%E9%A2%91%EF%BD%9C%E7%A7%8B%E8%A1%A5%E9%97%AF%E5%85%B3%EF%BC%8C%E5%9B%BD%E5%BA%86%E8%A7%A3%E9%94%813%E4%B8%AA%E5%85%BB%E7%94%9F"
+   }
+  ],
+  "E77": [
+   {
+    "kind": "短语精确",
+    "q": "\"网络辟谣沙龙接力，下一站陕西\"",
+    "url": "https://www.bing.com/search?q=%22%E7%BD%91%E7%BB%9C%E8%BE%9F%E8%B0%A3%E6%B2%99%E9%BE%99%E6%8E%A5%E5%8A%9B%EF%BC%8C%E4%B8%8B%E4%B8%80%E7%AB%99%E9%99%95%E8%A5%BF%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "网络辟谣沙龙接力，下一站陕西 fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/%E7%BD%91%E7%BB%9C%E8%BE%9F%E8%B0%A3%E6%B2%99%E9%BE%99%E6%8E%A5%E5%8A%9B%EF%BC%8C%E4%B8%8B%E4%B8%80%E7%AB%99%E9%99%95%E8%A5%BF"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 网络辟谣沙龙接力，下一站陕西",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E7%BD%91%E7%BB%9C%E8%BE%9F%E8%B0%A3%E6%B2%99%E9%BE%99%E6%8E%A5%E5%8A%9B%EF%BC%8C%E4%B8%8B%E4%B8%80%E7%AB%99%E9%99%95%E8%A5%BF"
+   }
+  ],
+  "E78": [
+   {
+    "kind": "短语精确",
+    "q": "\"工信微报 | 速自查！这17款APP及SDK存在侵害用户权益行为\"",
+    "url": "https://www.bing.com/search?q=%22%E5%B7%A5%E4%BF%A1%E5%BE%AE%E6%8A%A5%20%7C%20%E9%80%9F%E8%87%AA%E6%9F%A5%EF%BC%81%E8%BF%9917%E6%AC%BEAPP%E5%8F%8ASDK%E5%AD%98%E5%9C%A8%E4%BE%B5%E5%AE%B3%E7%94%A8%E6%88%B7%E6%9D%83%E7%9B%8A%E8%A1%8C%E4%B8%BA%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "工信微报 | 速自查！这17款APP及SDK存在侵害用户权益行为 fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/%E5%B7%A5%E4%BF%A1%E5%BE%AE%E6%8A%A5%20%7C%20%E9%80%9F%E8%87%AA%E6%9F%A5%EF%BC%81%E8%BF%9917%E6%AC%BEAPP%E5%8F%8ASDK%E5%AD%98%E5%9C%A8%E4%BE%B5%E5%AE%B3%E7%94%A8%E6%88%B7%E6%9D%83%E7%9B%8A%E8%A1%8C%E4%B8%BA"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn 工信微报 | 速自查！这17款APP及S",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%E5%B7%A5%E4%BF%A1%E5%BE%AE%E6%8A%A5%20%7C%20%E9%80%9F%E8%87%AA%E6%9F%A5%EF%BC%81%E8%BF%9917%E6%AC%BEAPP%E5%8F%8AS"
+   }
+  ],
+  "E80": [
+   {
+    "kind": "短语精确",
+    "q": "\"@科学辟谣 | 磁极即将倒转？\"",
+    "url": "https://www.bing.com/search?q=%22%40%E7%A7%91%E5%AD%A6%E8%BE%9F%E8%B0%A3%20%7C%20%E7%A3%81%E6%9E%81%E5%8D%B3%E5%B0%86%E5%80%92%E8%BD%AC%EF%BC%9F%22"
+   },
+   {
+    "kind": "核查站",
+    "q": "@科学辟谣 | 磁极即将倒转？ fact check",
+    "url": "https://toolbox.google.com/factcheck/explorer/search/%40%E7%A7%91%E5%AD%A6%E8%BE%9F%E8%B0%A3%20%7C%20%E7%A3%81%E6%9E%81%E5%8D%B3%E5%B0%86%E5%80%92%E8%BD%AC%EF%BC%9F"
+   },
+   {
+    "kind": "中文核查站",
+    "q": "site:piyao.org.cn @科学辟谣 | 磁极即将倒转？",
+    "url": "https://www.bing.com/search?q=site%3Apiyao.org.cn%20%40%E7%A7%91%E5%AD%A6%E8%BE%9F%E8%B0%A3%20%7C%20%E7%A3%81%E6%9E%81%E5%8D%B3%E5%B0%86%E5%80%92%E8%BD%AC%EF%BC%9F"
+   }
+  ]
+ }
+}

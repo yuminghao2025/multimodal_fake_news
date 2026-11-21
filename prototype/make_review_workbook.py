@@ -92,6 +92,25 @@ def main() -> int:
         for cell in row:
             cell.alignment = thin
 
+    # ---- sheet2b: 检索式（规则版生成，人工点开核查后填 finding）----
+    sq_path = METADATA_DIR / "suggested_queries.json"
+    if sq_path.exists():
+        sq = _loads(sq_path)
+        ws2b = wb.create_sheet("检索式")
+        cols2b = ["initial簇", "kind", "查询词", "URL(点开核查)", "有无发现(有/无)", "finding摘要"]
+        ws2b.append(cols2b)
+        for eid, rows in (sq.get("queries") or {}).items():
+            t = " | ".join((c.get("title") or "")[:50]
+                           for c in ev1_events.get(eid, {}).get("claims", [])[:1])
+            for r in rows:
+                ws2b.append([eid, r.get("kind"), r.get("q"), r.get("url"), "", ""])
+        style_header(ws2b, len(cols2b))
+        for i, w in enumerate([12, 14, 44, 60, 12, 30], 1):
+            ws2b.column_dimensions[get_column_letter(i)].width = w
+        for row in ws2b.iter_rows(min_row=2):
+            for cell in row:
+                cell.alignment = thin
+
     # ---- sheet3: 簇对照 ----
     ws3 = wb.create_sheet("簇对照")
     ws3.append(["event_id", "簇大小", "成员标题"])

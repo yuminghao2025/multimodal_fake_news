@@ -106,6 +106,11 @@ ACTION_MANIFEST: dict[str, dict] = {
                         "top-k 最近邻，输出 claim_matches.json（来源建议，回填仍走人工）",
                 "params": {"threshold": "语义相似度阈值(float,默认0.55)"},
             },
+            "suggest_queries": {
+                "desc": "检索式生成（规则版 v1）：为 initial 簇产出可点击核查检索式 "
+                        "（短语/实体/中文圈/核查站定向），输出 suggested_queries.json",
+                "params": {},
+            },
         },
     },
     "card": {
